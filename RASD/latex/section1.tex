@@ -58,3 +58,44 @@ This section lists the high-level objectives (Goals) that the BBP system must sa
     \\
     The system must maintain a clear distinction between private user data (personal trip history and statistics) accessible only to the owner, and publishable path information that contributes to the shared inventory.
 \end{enumerate}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|c|c|X|}
+        \hline
+        \textbf{Goal} & \textbf{Depends On} & \textbf{Rationale} \\
+        \hline
+        \textbf{[G2]} & [G1] & Statistics can only be calculated if trips are recorded and archived. \\
+        \hline
+        \textbf{[G3]} & [G1] & Weather enrichment requires that trips have been recorded with temporal and geographical data. \\
+        \hline
+        \textbf{G5} & [G10] & Automatic sensor data collection can only occur if the system has detected that the user is cycling. \\
+        \hline
+        \textbf{[G6]} & [G5] & User confirmation/correction is only needed if automatic detection has already occurred. \\
+        \hline
+        \textbf{[G7]} & [G4], [G5], [G6] & Path data must first be collected (manually via [G4] or automatically via [G5]) and validated (via [G6] if automatic) before it can be marked as publishable. \\
+        \hline
+        \textbf{[G9]} & [G7] & Path scoring and ranking requires that publishable path information exists in the system. \\
+        \hline
+        \textbf{[G9]} & [G8] & Paths must be evaluated in response to a route query from users. \\
+        \hline
+        \textbf{[G11]} & N/A & This is a high-level system constraint, not a sequential dependency. It must be addressed during the implementation of [G1] and [G7] (and others). \\
+        \hline
+    \end{tabularx}
+    \caption{Goal Dependencies and Rationale}
+    \label{tab:goal_dependencies}
+\end{table}
+\subsection{Scope}
+The \textbf{Best Bike Paths (BBP)} is a software system commissioned by a biker's association to support cyclists in creating, maintaining, and accessing a collaborative inventory of bike paths.
+The system aims to enhance the cycling experience by enabling users to:
+\begin{itemize}
+    \item Record and track their cycling activities with detailed statistics;
+    \item Contribute to a community-driven database of bike path conditions;
+    \item Access optimized route recommendations based on real-time path quality data.
+\end{itemize}
+
+Following the \textit{Problem Frames} approach, we distinguish between:
+\begin{description}
+    \item[The World (Environment):] The physical and social context in which the system operates, including cyclists, physical bike paths, environmental conditions, and mobile devices.
+    \item[The Machine (BBP System):] The software system itself, including the mobile application, backend services, databases, and integration layers.
+\end{description}
