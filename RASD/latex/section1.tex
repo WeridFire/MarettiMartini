@@ -99,3 +99,34 @@ Following the \textit{Problem Frames} approach, we distinguish between:
     \item[The World (Environment):] The physical and social context in which the system operates, including cyclists, physical bike paths, environmental conditions, and mobile devices.
     \item[The Machine (BBP System):] The software system itself, including the mobile application, backend services, databases, and integration layers.
 \end{description}
+
+\subsubsection{World Phenomena}
+These are events or states that exist continuously in the real world, independent of the software system.
+
+\begin{enumerate}[label=\textbf{[WP\arabic*]}:]
+    \item A cyclist travels along a physical route.
+    \item A physical obstacle (e.g., a pothole) exists or appears on a path.
+    \item The physical condition of a path deteriorates or improves (status change).
+    \item Meteorological conditions (temperature, wind, rain) occur at a specific geographical location.
+\end{enumerate}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Goal} & \textbf{WP1} & \textbf{WP2} & \textbf{WP3} & \textbf{WP4} \\ \hline
+\textbf{G1}   & X            &              &              &              \\ \hline
+\textbf{G2}   & X            &              &              &              \\ \hline
+\textbf{G3}   & X            &              &              & X            \\ \hline
+\textbf{G4}   &              & X            & X            &              \\ \hline
+\textbf{G5}   & X            & X            &              &              \\ \hline
+\textbf{G6}   &              & X            &              &              \\ \hline
+\textbf{G7}   &              & X            & X            &              \\ \hline
+\textbf{G8}   & X            &              &              &              \\ \hline
+\textbf{G9}   &              & X            & X            &              \\ \hline
+\textbf{G10}  & X            &              &              &              \\ \hline
+\textbf{G11}  & X            & X            & X            &              \\ \hline
+\end{tabular}
+\caption{Traceability Matrix: Goals vs World Phenomena}
+\label{tab:traceability_matrix}
+\end{table}
