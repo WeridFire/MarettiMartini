@@ -9,3 +9,52 @@ The fundamental purpose of the system is to facilitate the creation, maintenance
     
     \item \textbf{Crowdsourced Territorial Mapping:} The platform leverages user participation to update path conditions and identify obstacles. Data acquisition is achieved through manual user reporting or automated detection via mobile device sensors.
 \end{itemize}
+
+\subsubsection{Goals} \label{goals}
+This section lists the high-level objectives (Goals) that the BBP system must satisfy.
+
+\begin{enumerate}[label=\textbf{[G\arabic*]:}]
+    \item \textbf{Allow registered users to track their cycling activity}
+    \\
+    The system shall allow users to record their trips, archiving them to maintain a personal history of their cycling activities.
+
+    \item \textbf{Provide detailed statistics on trip performance}
+    \\
+    For every recorded trip, the system must calculate and display relevant metrics, such as the total distance covered and the average speed maintained by the user.
+
+    \item \textbf{Enrich trip data with contextual information}
+    \\
+    The system must integrate trip data with meteorological information (weather conditions, temperature, wind speed) retrieved from external services, relative to the time and location of the activity.
+
+    \item \textbf{Enable manual reporting of path status}
+    \\
+    Registered users must be able to manually insert information regarding path segments, specifying maintenance status (e.g., optimal, requires maintenance) and the presence of obstacles.
+
+    \item \textbf{Automate data collection via mobile sensors}
+    \\
+    The system must be capable of acquiring data in the background while the user is biking, using GPS for tracking and the accelerometer/gyroscope to identify potential road surface anomalies (e.g., potholes).
+
+    \item \textbf{Ensure accuracy of automatically detected data}
+    \\
+    Since automated detection may generate false positives, the system must require the user to confirm or correct the information detected by sensors before it is processed or published.
+
+    \item \textbf{Enable the publication of collected information}
+    \\
+    Registered users must be able to explicitly mark their path data (whether manually entered or automatically detected and confirmed) as publishable, making it available to the community. Only publishable information shall be visible to other users and contribute to path scoring.
+
+    \item \textbf{Support route planning for all users}
+    \\
+    The system must allow any user (even unregistered ones) to input an origin and a destination to visualize available bike paths on a map.
+
+    \item \textbf{Evaluate and rank available paths}
+    \\
+    When visualizing route options, the system must calculate a score for each path based on its maintenance status and its effectiveness in reaching the destination, sorting results by quality.
+
+    \item \textbf{Detect cycling activity automatically}
+    \\
+    The system must autonomously identify when the user is cycling (based on speed patterns and device telemetry) to automatically trigger trip recording and sensor data collection.
+
+    \item \textbf{Protect user privacy while enabling collaboration}
+    \\
+    The system must maintain a clear distinction between private user data (personal trip history and statistics) accessible only to the owner, and publishable path information that contributes to the shared inventory.
+\end{enumerate}
