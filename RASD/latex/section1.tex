@@ -130,3 +130,91 @@ These are events or states that exist continuously in the real world, independen
 \caption{Traceability Matrix: Goals vs World Phenomena}
 \label{tab:traceability_matrix}
 \end{table}
+
+\subsubsection{Shared Phenomena}
+These describe the interactions between the World (Environment) and the Machine (The BBP System).
+
+\paragraph{Controlled by the World, Observed by the Machine}
+These are inputs or events triggered by actors (Users, Sensors, External Services) that the BBP system detects.
+
+\begin{enumerate}[label=\textbf{[WM\arabic*]}:]
+     \item A Registered User initiates or terminates the recording of a trip via the mobile application.
+    \item Mobile device sensors transmit telemetry data (GPS coordinates, speed, accelerometer and gyroscope readings) to the system.
+    \item A Registered User manually inputs path data (street names, path status).
+    \item A Registered User submits a confirmation or correction regarding an automatically detected anomaly (e.g., confirming a pothole).
+    \item An Unregistered or Registered User submits a query for a bike path specifying an origin and destination.
+    \item The External Weather Service transmits meteorological data upon request.
+    \item A Registered User marks path information as publishable.
+    \item A Registered User requests to view their trip history.
+    \item A User submits authentication credentials (registration or login data).
+\end{enumerate}
+
+\paragraph{Controlled by the Machine, Observed by the World}
+These are outputs or actions taken by the BBP system that actors in the world can perceive.
+
+\begin{enumerate}[label=\textbf{[MW\arabic*]}:]
+    \item The System visualizes trip statistics (total distance, average speed, performance metrics) to the User.
+    \item The System displays weather-enriched trip details to the User.
+    \item The System presents a request for verification of a detected anomaly to the Registered User.
+    \item The System renders a map visualizing the recommended bike path(s) ranked by score.
+    \item The System displays the consolidated status (e.g., ``optimal'', ``requires maintenance'') of a specific path segment.
+    \item The System notifies the User when automatic trip recording is activated or deactivated based on detected cycling speed.
+    \item The System displays a chronological list of the User's previously recorded trips with associated statistics.
+    \item The System sends a request for weather conditions to the External Weather Service.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+% TABELLA 1: WORLD INPUTS
+\begin{table}[H]
+\centering
+\label{tab:traceability_inputs}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{\textbf{Goal}} & \multicolumn{9}{c|}{\textbf{Controlled by World (Input)}} \\ \cline{2-10} 
+ & \textbf{[WM1]} & \textbf{[WM2]} & \textbf{[WM3]} & \textbf{[WM4]} & \textbf{[WM5]} & \textbf{[WM6]} & \textbf{[WM7]} & \textbf{[WM8]} & \textbf{[WM9]} \\ \hline
+\textbf{[G1]} & X & X & & & & & & X & X \\ \hline
+\textbf{[G2]} & & X & & & & & & & \\ \hline
+\textbf{[G3]} & & & & & & X & & & \\ \hline
+\textbf{[G4]} & & & X & & & & & & X \\ \hline
+\textbf{[G5]} & & X & & & & & & & X \\ \hline
+\textbf{[G6]} & & & & X & & & & & X \\ \hline
+\textbf{[G7]} & & & X & X & & & X & & X \\ \hline
+\textbf{[G8]} & & & & & X & & & & \\ \hline
+\textbf{[G9]} & & & & & X & & & & \\ \hline
+\textbf{[G10]} & & X & & & & & & & \\ \hline
+\textbf{[G11]} & & & & & & & X & & X \\ \hline
+\end{tabular}%
+}
+\caption{Traceability Matrix: Goals vs Shared Phenomena (World Inputs)}
+\end{table}
+
+\vspace{0.5cm}
+
+% TABELLA 2: MACHINE OUTPUTS
+\begin{table}[H]
+\centering
+\label{tab:traceability_outputs}
+\resizebox{0.95\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{\textbf{Goal}} & \multicolumn{8}{c|}{\textbf{Controlled by Machine (Output)}} \\ \cline{2-9} 
+ & \textbf{[MW1]} & \textbf{[MW2]} & \textbf{[MW3]} & \textbf{[MW4]} & \textbf{[MW5]} & \textbf{[MW6]} & \textbf{[MW7]} & \textbf{[MW8]} \\ \hline
+\textbf{[G1]} & X & & & & & & X & \\ \hline
+\textbf{[G2]} & X & & & & & & & \\ \hline
+\textbf{[G3]} & & X & & & & & & X \\ \hline
+\textbf{[G4]} & & & & & & & & \\ \hline
+\textbf{[G5]} & & & & & & & & \\ \hline
+\textbf{[G6]} & & & X & & & & & \\ \hline
+\textbf{[G7]} & & & & & & & & \\ \hline
+\textbf{[G8]} & & & & X & & & & \\ \hline
+\textbf{[G9]} & & & & & X & & & \\ \hline
+\textbf{[G10]} & & & & & & X & & \\ \hline
+\textbf{[G11]} & & & & & X & & X & \\ \hline
+\end{tabular}%
+}
+\caption{Traceability Matrix: Goals vs Shared Phenomena (Machine Outputs)}
+\end{table}
+
+\subsection{Definitions, Acronyms, Abbrevation
