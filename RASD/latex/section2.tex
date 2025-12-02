@@ -104,9 +104,9 @@ Path management relies on BikePathSegments, which maintain status and Obstacle h
 This functionality allows Unregistered Users to create a personal account to access the system's full features. The user provides personal details such as username, email, and password. The system verifies the validity of the input data (e.g. ensuring the email is not already registered). Upon successful validation, the system creates a new account and stores the user's credentials.
 \begin{figure}[H]
     \centering
-    \caption{User Registration BPMN}
     \label{fig:user_registration}
     \includegraphics[width=\textwidth]{RASD/img/section2/diagram1.png}
+     \caption{User Registration BPMN}
 \end{figure}
 \clearpage
 
@@ -124,9 +124,9 @@ This functionality grants Registered Users access to their personal area. The us
 This functionality allows Registered Users to manually track their cycling activity. The user initiates the recording via the application interface. During the ride, the system continuously tracks the user's geolocation (GPS) and time. The recording continues until the user explicitly stops it, at which point the raw data is saved locally for processing.
 \begin{figure}[H]
     \centering
-    \caption{Record Personal Trip BPMN}
     \label{fig:record_trip}
     \includegraphics[width=\textwidth]{RASD/img/section2/diagram3.png}
+    \caption{Record Personal Trip BPMN}
 \end{figure}
 \clearpage
 
@@ -143,7 +143,41 @@ Once a trip is completed, this functionality processes the raw data to calculate
 This background functionality automatically detects when the user is cycling based on movement speed. Once activated, it collects data from the mobile device's sensors to identify road anomalies, such as potholes. Potential obstacles are flagged internally by the system for later verification.
 \begin{figure}[H]
     \centering
-    \caption{Automated Data Collection BPMN}
     \label{fig:automated_data}
     \includegraphics[width=\textwidth]{RASD/img/section2/diagram5.png}
+    \caption{Automated Data Collection BPMN}
 \end{figure}
+
+\subsubsection{Verify \& Confirm Detected Data}
+This functionality ensures the accuracy of automatically collected data. The system presents the user with a list or map of potential anomalies detected during the ride. The user must explicitly confirm if the anomaly was real or reject it (a false positive). Only confirmed data is stored as valid path information.
+
+
+\begin{figure}[H]
+    \centering
+    \label{fig:verify_data}
+    \includegraphics[width=\textwidth]{RASD/img/section2/diagram6.png} 
+    \caption{Verify \& Confirm Detected Data BPMN}
+\end{figure}
+
+\subsubsection{Publish Path Information}
+This functionality allows Registered Users to contribute to the shared inventory. The user selects validated data (either manually reported or automatically confirmed) from their personal history and marks it as "Publishable". The system updates the public database, making this information available for other users' route planning.
+
+
+\begin{figure}[H]
+    \centering
+    \label{fig:publish_info}
+    \includegraphics[width=\textwidth]{RASD/img/section2/diagram8.png} 
+    \caption{Publish Path Information BPMN}
+\end{figure}
+
+\subsubsection{View Statistics \& History}
+This functionality enables Registered Users to access their personal archive of cycling activities. The user accesses the "History" section to view a chronological list of past trips. For each entry, the system provides a summary (date, distance, duration). By selecting a specific trip, the user can access detailed information, including the route map, performance charts (speed/elevation), and the associated weather conditions recorded at the time of the trip.
+
+
+\begin{figure}[H]
+    \centering
+    \label{fig:view_stats}
+    \includegraphics[width=\textwidth]{RASD/img/section2/diagram10.png} 
+    \caption{View Statistics \& History BPMN}
+\end{figure}
+\clearpage
