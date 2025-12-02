@@ -82,3 +82,18 @@
     \label{tab:scenarios_traceability}
 \end{table}
 \clearpage
+
+\subsubsection{Class Diagram}
+
+The domain model distinguishes between RegisteredUsers, who track activities and report data, and UnregisteredUsers restricted to navigation. The central Trip entity records cycling history by aggregating GPSCoordinates and calculating TripStatistics, while linking to SensorAnomaly for automated defect detection and Weather Data for environmental context.
+
+Path management relies on BikePathSegments, which maintain status and Obstacle history derived from user-submitted PathReports. These inputs determine the PathScore, a metric used alongside the external MapService to process user RouteRequests and generate optimized RouteResults, ensuring recommendations reflect the most current community-validated road conditions.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{RASD/img/section2/class_diagram.png}
+    \caption{Class Diagram}
+    \label{fig:class_diagram}
+    
+\end{figure}
+\clearpage
