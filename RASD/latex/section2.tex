@@ -150,8 +150,6 @@ This background functionality automatically detects when the user is cycling bas
 
 \subsubsection{Verify \& Confirm Detected Data}
 This functionality ensures the accuracy of automatically collected data. The system presents the user with a list or map of potential anomalies detected during the ride. The user must explicitly confirm if the anomaly was real or reject it (a false positive). Only confirmed data is stored as valid path information.
-
-
 \begin{figure}[H]
     \centering
     \label{fig:verify_data}
@@ -159,16 +157,34 @@ This functionality ensures the accuracy of automatically collected data. The sys
     \caption{Verify \& Confirm Detected Data BPMN}
 \end{figure}
 
+\subsubsection{Manual Path Reporting}
+Registered Users can manually insert information about a specific path segment. The user selects a location on the map, specifies the status and indicates any obstacles. This data is saved to the user's personal records and can be optionally published.
+\begin{figure}[H]
+    \centering
+    \label{fig:manual_reporting}
+    \includegraphics[width=\textwidth]{RASD/img/section2/diagram7.png} 
+    \caption{Manual Path Reporting BPMN}
+\end{figure}
+\clearpage
+
 \subsubsection{Publish Path Information}
 This functionality allows Registered Users to contribute to the shared inventory. The user selects validated data (either manually reported or automatically confirmed) from their personal history and marks it as "Publishable". The system updates the public database, making this information available for other users' route planning.
-
-
 \begin{figure}[H]
     \centering
     \label{fig:publish_info}
     \includegraphics[width=\textwidth]{RASD/img/section2/diagram8.png} 
     \caption{Publish Path Information BPMN}
 \end{figure}
+
+\subsubsection{Route Planning \& Scoring}
+This functionality allows any user (Registered or Unregistered) to find the best bike path between two points. The user inputs an origin and a destination. The system calculates available routes and assigns a score to each based on path status and efficiency. The results are visualized on a map, highlighting the highest-scored path.
+\begin{figure}[H]
+    \centering
+    \label{fig:route_planning}
+    \includegraphics[width=\textwidth]{RASD/img/section2/diagram9.png}
+    \caption{Route Planning \& Scoring BPMN}
+\end{figure}
+\clearpage
 
 \subsubsection{View Statistics \& History}
 This functionality enables Registered Users to access their personal archive of cycling activities. The user accesses the "History" section to view a chronological list of past trips. For each entry, the system provides a summary (date, distance, duration). By selecting a specific trip, the user can access detailed information, including the route map, performance charts (speed/elevation), and the associated weather conditions recorded at the time of the trip.
