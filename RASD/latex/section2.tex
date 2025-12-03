@@ -197,33 +197,3 @@ This functionality enables Registered Users to access their personal archive of 
     \caption{View Statistics \& History BPMN}
 \end{figure}
 \clearpage
-\subsection{Assumptions, dependencies and constraints}
-
-\subsubsection{Domain Assumptions}
-Domain assumptions are facts about the environment that are considered true for the system to function correctly. If these assumptions do not hold, the system may not be able to satisfy its requirements.
-
-\begin{description}
-    \item[\textbf{[D\_ASS1] GPS Availability:}] It is assumed that the Global Positioning System (GPS) signal is available and sufficiently accurate in the areas where the system is used to allow for meaningful path reconstruction.
-    \item[\textbf{[D\_ASS2] Device Sensor Capability:}] It is assumed that the users' smartphones are equipped with a functioning accelerometer and gyroscope capable of detecting vibrations and orientation changes.
-    \item[\textbf{[D\_ASS3] Device Placement:}] For the "Automated Mode" to function correctly, it is assumed that the user carries the smartphone in a position that allows the sensors to perceive road irregularities (e.g., firmly attached to the handlebar or in a pocket close to the body), rather than in a suspended bag where vibrations would be dampened.
-    \item[\textbf{[D\_ASS4] Distinguishability of Speed:}] It is assumed that cycling speeds are sufficiently distinct from walking (too slow) and driving (too fast) to allow the system to infer cycling activity with a reasonable degree of confidence, triggering the automatic recording.
-    \item[\textbf{[D\_ASS5] User Integrity:}] It is assumed that the majority of users provide truthful manual reports and confirmations regarding path conditions.
-\end{description}
-
-\subsubsection{Dependencies}
-The BBP system relies on external systems and services to provide full functionality.
-
-\begin{description}
-    \item[\textbf{[DEP1] External Map Service:}] BBP does not create cartography from scratch. It depends on a third-party Map Provider (e.g., OpenStreetMap, Google Maps Platform) to render maps and provide the underlying road network topology for visualization.
-    \item[\textbf{[DEP2] External Weather Service:}] The system depends on the availability and reliability of an external API to fetch real-time and historical meteorological data based on geolocation and timestamps.
-    \item[\textbf{[DEP3] Mobile Data Connectivity:}] The system depends on the mobile network ($4G/5G$) to download map tiles, fetch weather data, and synchronize trip data with the server. However, core tracking features must be resilient to temporary loss of connectivity.
-\end{description}
-
-\subsubsection{Constraints}
-Constraints are limitations imposed on the design and implementation of the solution.
-
-\begin{description}
-    \item[\textbf{[CON1] Regulatory \& Privacy:}] As the system collects sensitive geolocation data and personal history, it must strictly adhere to data protection regulations (e.g., GDPR). Private trips must remain inaccessible to other users unless explicitly published.
-    \item[\textbf{[CON2] Hardware Heterogeneity:}] The system must function across a wide range of Android and iOS devices with varying sensor sensitivity and GPS hardware quality.
-    \item[\textbf{[CON3] Connectivity Limitations:}] The application must support offline buffering. If a user cycles in a remote area without signal, the trip data and sensor logs must be stored locally and synchronized once connectivity is restored.
-\end{description}
