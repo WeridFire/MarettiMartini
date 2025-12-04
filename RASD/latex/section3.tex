@@ -61,6 +61,53 @@ The BBP system interacts with the following external software entities:
 
 \subsubsection{Use Case Tables and Sequence Diagrams}
 
+%%SIGNUP
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC1 \\ \hline
+\textbf{Name} & Sign Up \\ \hline
+\textbf{Actor} & Unregistered User \\ \hline
+\textbf{Entry conditions} & The User has downloaded the application, opened it, and selected the ``Sign Up'' option. \\ \hline
+\textbf{Input} & \texttt{username}, \texttt{email}, \texttt{password} \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The application displays the Sign Up form.
+        \item The Unregistered User inserts the required data: username, email, and password.
+        \item The Unregistered User clicks the ``Register'' button.
+        \item The System checks if the email is already in use and validates the password strength.
+        \item The application displays a confirmation message informing the User that a verification email has been sent.
+        \item The Unregistered User opens their email client and clicks on the verification link received from BBP.
+        \item The application (or web page) displays a success message confirming the account activation.
+        \item The application redirects the User to the Login screen.
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The User account is created and marked as active in the database.
+        \item The User is redirected to the Login page.
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item Registration confirmation email sent to the User.
+        \item New Account record stored in the database.
+    \end{itemize}
+    \\ \hline
+\textbf{Exceptions} & 
+\textbf{Email already exists:} If the email is already registered, the application displays an error message on the Sign Up form inviting the User to log in or use a different email. \\ \hline
+\end{tabularx}
+\caption{Use Case 1: Sign Up}
+\label{tab:uc1_signup}
+\end{table}
+%% SIGNUP SEQDIAG
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD1.png}
+        \caption{Sign Up}
+    \end{center}
+\end{figure}
 
 
 %%PLAN ROUTE
@@ -107,6 +154,56 @@ The BBP system interacts with the following external software entities:
     \begin{center}
         \includegraphics[width=\textwidth]{RASD/img/section3/SD2.png}
         \caption{Plan Route}
+    \end{center}
+\end{figure}
+\newpage
+
+%%RECORD A PERSONAL TRIP
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC3 \\ \hline
+\textbf{Name} & Record Personal Trip \\ \hline
+\textbf{Actor} & Registered User \\ \hline
+\textbf{Entry conditions} & The User has logged in and is ready to start a cycling activity. \\ \hline
+\textbf{Input} & User interaction (Start/Stop), GPS Data \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The User taps the ``Start Recording'' button on the dashboard.
+        \item The System begins tracking GPS coordinates and time in the background.
+        \item The User cycles to their destination.
+        \item The User taps the ``Stop Recording'' button.
+        \item The System processes the raw GPS data to calculate Trip Statistics (Total Distance, Average Speed).
+        \item The System requests current meteorological data (Temperature, Weather Condition) from the External Weather Service based on the trip's location and time.
+        \item The System merges the statistics with the weather data.
+        \item The application displays a Trip Summary screen with the map, stats, and weather info.
+        \item The User taps ``Save'' to archive the trip.
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The trip is saved in the User's personal history (Private status).
+        \item Statistics are updated.
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item Trip Summary visualization.
+        \item New Trip entity stored in the database.
+    \end{itemize}
+    \\ \hline
+\textbf{Exceptions} & 
+\textbf{No GPS/Connectivity:} If GPS is weak, the System notifies the user. If internet is missing at the end of the trip, the System saves the raw data locally and retries fetching weather data once connectivity is restored. \\ \hline
+\end{tabularx}
+\caption{Use Case 3: Record Personal Trip}
+\label{tab:uc3_recordtrip}
+\end{table}
+%% RECORD A PERSONAL TRIP SEQDIAG
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD3.png}
+        \caption{Record A Personal Trip}
     \end{center}
 \end{figure}
 \newpage
