@@ -207,3 +207,55 @@ The BBP system interacts with the following external software entities:
     \end{center}
 \end{figure}
 \newpage
+
+%%AUTOMATED DATA COLLECTION
+\begin{table}[H]
+\centering
+% Tabularx impostato su \textwidth per occupare tutta la larghezza della pagina.
+% La prima colonna è fissa (3.5cm), la seconda (X) si espande automaticamente.
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC4 \\ \hline
+\textbf{Name} & Automated Data Collection \\ \hline
+\textbf{Actor} & Registered User (Passive), System (Active) \\ \hline
+\textbf{Entry conditions} & The User has logged in, enabled ``Automated Mode'' in settings, and starts cycling. \\ \hline
+\textbf{Input} & GPS Speed, Accelerometer, Gyroscope \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The System detects that the device speed exceeds the cycling threshold for a sustained period.
+        \item The application triggers a silent notification: ``Cycling activity detected. Recording started.''
+        \item The System monitors sensor data (accelerometer/gyroscope) in the background.
+        \item The System detects a significant vertical shock (potential anomaly).
+        \item The System logs the anomaly type (e.g., Vibration/Pothole), timestamp, and GPS location internally.
+        \item The User stops moving (speed drops to 0) for more than 5 minutes.
+        \item The System stops the recording session.
+        \item The application sends a push notification: ``We detected potential obstacles during your ride. Tap to verify.''
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item Trip data is stored locally.
+        \item Potential anomalies are flagged for verification (Pending status).
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item Silent Notification (Start).
+        \item Push Notification (End).
+    \end{itemize}
+    \\ \hline
+\textbf{Exceptions} & 
+\textbf{Low Battery:} If the device battery drops below a certain threshold, the System stops background monitoring to preserve power and saves the current state. \\ \hline
+\end{tabularx}
+\caption{Use Case 4: Automated Data Collection}
+\label{tab:uc4_autocollection}
+\end{table}
+
+%% AUTOMATED DATA COLLECTION SEQDIAG
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD4.png}
+        \caption{Automated Data Collection}
+    \end{center}
+\end{figure}
+\newpage
