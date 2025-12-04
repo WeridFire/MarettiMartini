@@ -58,3 +58,55 @@ The BBP system interacts with the following external software entities:
     \end{figure}
 
 \end{enumerate}
+
+\subsubsection{Use Case Tables and Sequence Diagrams}
+
+
+
+%%PLAN ROUTE
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC2 \\ \hline
+\textbf{Name} & Plan Route \\ \hline
+\textbf{Actor} & Unregistered User, Registered User \\ \hline
+\textbf{Entry conditions} & The User has opened the application and accessed the ``Explore'' section. \\ \hline
+\textbf{Input} & \texttt{origin}, \texttt{destination} \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The application displays a map view with a search bar.
+        \item The User enters the address for the ``Origin'' and ``Destination''.
+        \item The User clicks the ``Find Route'' button.
+        \item The System calculates available routes based on the Path Inventory and external map data.
+        \item The application displays the map with the calculated routes drawn on it. The route with the highest score is highlighted in green.
+        \item The application shows a summary card with details (distance, estimated time, and Path Score) for the best route.
+        \item The User selects a specific route to view detailed segment information.
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The optimal path is visualized on the user's screen.
+        \item The User can proceed to navigation.
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item Map visualization of the routes.
+        \item Route statistics (Path Score, Status, Distance).
+    \end{itemize}
+    \\ \hline
+\textbf{Exceptions} & 
+\textbf{No Path Found:} If no route connects the points, the application displays a generic error message ("No bike paths found") and keeps the User on the search view. \\ \hline
+\end{tabularx}
+\caption{Use Case 2: Plan Route}
+\label{tab:uc2_planroute}
+\end{table}
+%% PLAN ROUTE SEQDIAG
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD2.png}
+        \caption{Plan Route}
+    \end{center}
+\end{figure}
+\newpage
