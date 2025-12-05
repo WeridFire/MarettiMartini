@@ -260,6 +260,50 @@ The BBP system interacts with the following external software entities:
 \end{figure}
 \newpage
 
+%% VERIFY DETECTED DATA
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC5 \\ \hline
+\textbf{Name} & Verify Detected Data \\ \hline
+\textbf{Actor} & Registered User \\ \hline
+\textbf{Entry conditions} & The User taps on the ``Verify Anomalies'' notification from UC4 or opens a trip with pending anomalies. \\ \hline
+\textbf{Input} & User Confirmation (Confirm/Reject) \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The application displays the map of the recorded trip with pins marking detected anomalies.
+        \item The User taps on a specific anomaly pin.
+        \item The application displays a popup: ``Potential Pothole detected here. Confirm?''
+        \item The User evaluates the location and clicks ``Confirm''.
+        \item The application changes the anomaly status to ``Confirmed''.
+        \item The System asks if there are other anomalies to review.
+        \item The User reviews all items and finally clicks ``Save Verification''.
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item Confirmed anomalies are stored as valid Path Reports.
+        \item Rejected anomalies are discarded.
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & Updated local trip data with validated incidents. \\ \hline
+\textbf{Exceptions} & 
+\textbf{False Positive:} If the User clicks ``Reject'' (e.g., they jumped a curb), the application removes the pin from the map and deletes the temporary anomaly data. \\ \hline
+\end{tabularx}
+\caption{Use Case 5: Verify Detected Data}
+\label{tab:uc5_verifydata}
+\end{table}
+%% VERIFY DETECTED DATA SEQDIAG
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD5.png}
+        \caption{Verify Detected Data}
+    \end{center}
+\end{figure}
+\newpage
+
+
 %% REPORT PATH MANUALLY
 \begin{table}[H]
 \centering
@@ -294,11 +338,53 @@ The BBP system interacts with the following external software entities:
 \caption{Use Case 6: Report Path Manually}
 \label{tab:uc6_manualreport}
 \end{table}
-
 \begin{figure}[H]
     \begin{center}
         \includegraphics[width=\textwidth]{RASD/img/section3/SD6.png}
         \caption{Report Path Manually}
+    \end{center}
+\end{figure}
+\newpage
+
+%% REPORT PATH MANUALLY SEQDIAG
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC7 \\ \hline
+\textbf{Name} & Publish Information \\ \hline
+\textbf{Actor} & Registered User \\ \hline
+\textbf{Entry conditions} & The User is viewing a private Trip or Report in their history. \\ \hline
+\textbf{Input} & User command (Make Publishable) \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The User selects a past private trip or verified anomaly report.
+        \item The User taps the ``Make Publishable'' button.
+        \item The application displays a privacy warning: ``This will share path conditions. Continue?''
+        \item The User confirms.
+        \item The System retrieves the data, strips personal identifiers (User ID linkage to the specific path segment data is anonymized).
+        \item The System updates the Public Inventory with the path quality/obstacle data.
+        \item The System triggers a recalculation of the Path Score for the affected segments.
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The data is marked as ``Public'' in the user's view.
+        \item The community database is updated.
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & Confirmation message; Updated Path Scores in the system. \\ \hline
+\textbf{Exceptions} & 
+\textbf{Server Error:} If the update fails, the System informs the user and retains the data state as Private. \\ \hline
+\end{tabularx}
+\caption{Use Case 7: Publish Information}
+\label{tab:uc7_publish}
+\end{table}
+%% PUBLISH INFORMATION SEQDIAG
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD7.png}
+        \caption{Publish Information}
     \end{center}
 \end{figure}
 \newpage
