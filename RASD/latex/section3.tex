@@ -259,3 +259,99 @@ The BBP system interacts with the following external software entities:
     \end{center}
 \end{figure}
 \newpage
+
+%% REPORT PATH MANUALLY
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC6 \\ \hline
+\textbf{Name} & Report Path Manually \\ \hline
+\textbf{Actor} & Registered User \\ \hline
+\textbf{Entry conditions} & The User has logged in and selected the ``Report Path'' function. \\ \hline
+\textbf{Input} & Location selection, Status details \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The application displays the map.
+        \item The User navigates the map and taps to select a specific path segment or location.
+        \item The application displays a reporting form.
+        \item The User selects the Status (e.g., ``Requires Maintenance'') and Obstacle Type (e.g., ``Flooding'') from dropdown menus.
+        \item The User optionally adds a text note or photo.
+        \item The User sets the visibility toggle to ``Public'' (Publishable).
+        \item The User taps ``Submit''.
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item A new Path Report is created in the database.
+        \item If public, the data is immediately available to the community.
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & Success message: ``Report submitted successfully.'' \\ \hline
+\textbf{Exceptions} & 
+\textbf{Invalid Location:} If the selected point is not on a known bike path entity, the System warns the user: ``No mapped bike path at this location.'' \\ \hline
+\end{tabularx}
+\caption{Use Case 6: Report Path Manually}
+\label{tab:uc6_manualreport}
+\end{table}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD6.png}
+        \caption{Report Path Manually}
+    \end{center}
+\end{figure}
+\newpage
+
+%%VIEW STATISTIC AND HISTORY
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC8 \\ \hline
+\textbf{Name} & View Statistics and History \\ \hline
+\textbf{Actor} & Registered User \\ \hline
+\textbf{Entry conditions} & The User has logged in and is currently on the main dashboard. \\ \hline
+\textbf{Input} & User navigation commands (Select Menu, Select Trip) \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The User navigates to the ``My History'' section from the main menu.
+        \item The System retrieves the chronological list of past recorded trips from the database.
+        \item The application displays the list of trips, showing summary metrics for each (e.g., Date, Total Distance, Duration).
+        \item The User scrolls through the list and taps on a specific trip card.
+        \item The System retrieves the full dataset for the selected trip, including GPS waypoints, speed telemetry, and associated weather data.
+        \item The application displays the detailed Trip View, which includes:
+            \begin{itemize}[nosep, leftmargin=*]
+                \item The route drawn on the map.
+                \item Graphs showing speed and elevation over time.
+                \item Weather conditions at the time of the ride.
+            \end{itemize}
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The User has visualized the specific performance metrics of a past activity.
+        \item The User returns to the main list or dashboard.
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item Visual list of historical activities.
+        \item Detailed performance graphs and weather-enriched route map.
+    \end{itemize}
+    \\ \hline
+\textbf{Exceptions} & 
+\textbf{No History Available:} If the User has not recorded any trips yet, the application displays a placeholder message: ``No trips recorded yet. Start riding!'' and offers a button to start a new recording. \\ \hline
+\end{tabularx}
+\caption{Use Case 8: View Statistics and History}
+\label{tab:uc8_viewhistory}
+\end{table}
+
+%% VIEW STATISTIC AND HISTORY SEQDIAG
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD8.png}
+        \caption{View Statistics And History}
+    \end{center}
+\end{figure}
+\newpage
