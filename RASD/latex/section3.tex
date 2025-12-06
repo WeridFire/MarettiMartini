@@ -477,3 +477,36 @@ The Best Bike Paths (BBP) system must ensure fluid interaction and accurate trac
     \item \textbf{[DC8] OS Compatibility:} The mobile application must be compatible with \textbf{Android 10.0+} and \textbf{iOS 14.0+} to ensure access to modern background processing APIs required for Requirement R7[cite: 311].
     \item \textbf{[DC9] Network Dependency for Enrichment:} The weather enrichment feature (Scenario 2) and route planning (Scenario 7) are strictly dependent on an active internet connection. These features are disabled in offline mode.
 \end{itemize}
+\newpage
+\subsection{Software System Attributes}
+
+\subsubsection{Reliability}
+\begin{itemize}
+    \item \textbf{[SSA1] Data Persistence \& Integrity:} The system must ensure \textbf{zero data loss} for recorded trips. In the event of an application crash or unexpected shutdown (e.g., battery depletion), the current trip state must be recoverable from the local storage upon the next launch.
+    \item \textbf{[SSA2] Detection Accuracy:} The automated anomaly detection algorithm should aim to minimize user fatigue by maintaining a False Positive rate below \textbf{20\%} (i.e., at least 80\% of detected anomalies should be real road defects).
+\end{itemize}
+
+\subsubsection{Availability}
+\begin{itemize}
+    \item \textbf{[SSA3] Offline Resilience:} The core tracking functionality (recording trips and collecting sensor data) must be \textbf{100\% available} regardless of network status. Synchronization with the server shall occur transparently when connectivity is restored.
+    \item \textbf{[SSA4] Server Uptime:} The BBP Backend Server must guarantee \textbf{99.9\% uptime} during peak usage hours (06:00 - 22:00), ensuring users can always log in and sync their history.
+\end{itemize}
+
+\subsubsection{Security}
+\begin{itemize}
+    \item \textbf{[SSA5] Data Encryption:} All sensitive data transmission between the mobile client and the backend server (authentication, geolocation history) must be encrypted via HTTPS.
+    \item \textbf{[SSA6] Privacy by Default:} All user trips are ``Private'' by default[cite: 325]. The system must ensure that no personal trip data is exposed to the public map unless the user explicitly executes the ``Publish Information'' use case \textbf{[UC7]}.
+    \item \textbf{[SSA7] Authentication:} Access to personal history and reporting features requires secure login (Token-based authentication, e.g., \textbf{JWT}) to prevent session hijacking.
+\end{itemize}
+
+\subsubsection{Maintainability}
+\begin{itemize}
+    \item \textbf{[SSA8] Modular Architecture:} The ``Anomaly Detection Module'' must be decoupled from the main application logic[cite: 329]. This allows the development team to update or tune the detection algorithm (e.g., tweaking sensitivity thresholds) without requiring a complete overhaul of the mobile application.
+    \item \textbf{[SSA9] Code Documentation:} The source code must follow standard documentation practices (e.g., Javadoc for Java/Android, SwiftDoc for iOS) to facilitate future handover to other developers in the association.
+\end{itemize}
+
+\subsubsection{Portability}
+\begin{itemize}
+    \item \textbf{[SSA10] Cross-Platform Consistency:} The mobile application must provide feature parity between the \textbf{Android} and \textbf{iOS} versions, ensuring that the sensor data collection behaves consistently across different operating systems[cite: 333].
+    \item \textbf{[SSA11] Backend Deployment:} The server-side components should be containerized (e.g., using Docker) to allow deployment on any standard cloud infrastructure (AWS, Azure, or on-premise servers) without environment-specific configurations.
+\end{itemize}
