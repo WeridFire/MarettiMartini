@@ -211,8 +211,6 @@ The BBP system interacts with the following external software entities:
 %%AUTOMATED DATA COLLECTION
 \begin{table}[H]
 \centering
-% Tabularx impostato su \textwidth per occupare tutta la larghezza della pagina.
-% La prima colonna è fissa (3.5cm), la seconda (X) si espande automaticamente.
 \begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
 \hline
 \textbf{ID} & UC4 \\ \hline
@@ -441,6 +439,138 @@ The BBP system interacts with the following external software entities:
     \end{center}
 \end{figure}
 \newpage
+
+\subsubsection{Requirements}
+This subsection summarizes the goals described in section \ref{goals}, mapping them to specific functional requirements and domain assumptions.
+
+\begin{enumerate}[label=\textbf{-[G\arabic*]}:]
+    
+    \item \textbf{Allow registered users to track their cycling activity}
+    \begin{itemize}
+        \item \textbf{[R1]:} The system allows Unregistered Users to sign-up providing personal details.
+        \item \textbf{[R2]:} The system allows Registered Users to log-in to access their personal dashboard.
+        \item \textbf{[R3]:} The system allows users to manually start and stop the recording of a trip via the application interface.
+        \item \textbf{[R4]:} The system continuously tracks the user's geolocation (GPS coordinates) and time during the recording.
+        \item \textbf{[D\_ASS1]:} GPS Availability - It is assumed that the GPS signal is available and sufficiently accurate to allow for meaningful path reconstruction.
+    \end{itemize}
+
+    \item \textbf{Provide detailed statistics on trip performance}
+    \begin{itemize}
+        \item \textbf{[R2]:} The system allows Registered Users to log-in.
+        \item \textbf{[R5]:} The system processes raw GPS data to calculate performance metrics, specifically total distance and average speed.
+        \item \textbf{[R6]:} The system displays a summary of the statistics immediately after a trip is stopped.
+        \item \textbf{[R7]:} The system archives the trip statistics in the user's personal history for future retrieval.
+    \end{itemize}
+
+    \item \textbf{Enrich trip data with contextual information}
+    \begin{itemize}
+        \item \textbf{[R8]:} The system connects to an external service to retrieve meteorological data (temperature, wind, condition) based on the trip's timestamp and location.
+        \item \textbf{[R9]:} The system merges the retrieved weather data with the trip statistics.
+        \item \textbf{[DEP2]:} External Weather Service - The system depends on the availability of an external API to fetch real-time and historical meteorological data.
+        \item \textbf{[DEP3]:} Mobile Data Connectivity - The system depends on the mobile network to fetch weather data.
+    \end{itemize}
+
+    \item \textbf{Enable manual reporting of path status}
+    \begin{itemize}
+        \item \textbf{[R2]:} The system allows Registered Users to log-in.
+        \item \textbf{[R10]:} The system allows users to select a specific location or segment on the map.
+        \item \textbf{[R11]:} The system allows users to input status details (e.g., ``Requires Maintenance'') and obstacle types.
+        \item \textbf{[R12]:} The system saves the manual report to the user's personal records.
+        \item \textbf{[D\_ASS5]:} User Integrity - It is assumed that the majority of users provide truthful manual reports regarding path conditions.
+    \end{itemize}
+
+    \item \textbf{Automate data collection via mobile sensors}
+    \begin{itemize}
+        \item \textbf{[R13]:} The system monitors device sensors (accelerometer and gyroscope) in the background while the user is cycling.
+        \item \textbf{[R14]:} The system identifies potential road anomalies (e.g., potholes) based on vertical jolts and orientation changes.
+        \item \textbf{[R15]:} The system logs the anomaly type and location internally for later verification.
+        \item \textbf{[D\_ASS2]:} Device Sensor Capability - It is assumed that users' smartphones are equipped with functioning accelerometers and gyroscopes.
+        \item \textbf{[D\_ASS3]:} Device Placement - It is assumed the phone is placed in a position (e.g., pocket, handlebar) that allows perceiving vibrations.
+    \end{itemize}
+
+    \item \textbf{Ensure accuracy of automatically detected data}
+    \begin{itemize}
+        \item \textbf{[R16]:} The system notifies the user after a trip if potential anomalies were detected.
+        \item \textbf{[R17]:} The system displays a map or list of detected anomalies for verification.
+        \item \textbf{[R18]:} The system allows the user to explicitly ``Confirm'' or ``Reject'' (False Positive) a detected anomaly.
+        \item \textbf{[R19]:} The system discards data marked as ``Reject'' and stores data marked as ``Confirm'' as valid path information.
+        \item \textbf{[D\_ASS5]:} User Integrity - It is assumed that users generally provide truthful confirmations.
+    \end{itemize}
+
+    \item \textbf{Enable the publication of collected information}
+    \begin{itemize}
+        \item \textbf{[R2]:} The system allows Registered Users to log-in.
+        \item \textbf{[R20]:} The system allows users to select validated data (manual or automated) from their history.
+        \item \textbf{[R21]:} The system allows users to mark specific data as ``Publishable''.
+        \item \textbf{[R22]:} The system updates the public inventory with the published path quality data.
+        \item \textbf{[CON1]:} Regulatory \& Privacy - Private trips must remain inaccessible unless explicitly published.
+    \end{itemize}
+
+    \item \textbf{Support route planning for all users}
+    \begin{itemize}
+        \item \textbf{[R23]:} The system allows both Registered and Unregistered users to access the ``Explore'' section.
+        \item \textbf{[R24]:} The system allows users to input an Origin and a Destination.
+        \item \textbf{[R25]:} The system calculates available routes between the two points.
+        \item \textbf{[DEP1]:} External Map Service - The system depends on a third-party Map Provider for road network topology.
+    \end{itemize}
+
+    \item \textbf{Evaluate and rank available paths}
+    \begin{itemize}
+        \item \textbf{[R25]:} The system calculates available routes.
+        \item \textbf{[R26]:} The system computes a ``Path Score'' for each route based on path status (from the public inventory) and efficiency.
+        \item \textbf{[R27]:} The system visualizes the routes on the map, highlighting the highest-scored path.
+        \item \textbf{[R28]:} The system displays a summary of the route details (distance, estimated time, score).
+    \end{itemize}
+
+    \item \textbf{Detect cycling activity automatically}
+    \begin{itemize}
+        \item \textbf{[R29]:} The system periodically monitors GPS speed in the background.
+        \item \textbf{[R30]:} The system automatically triggers the ``Start Recording'' function when the speed exceeds a specific cycling threshold for a sustained period.
+        \item \textbf{[R31]:} The system automatically stops the recording when the user stops moving for a defined timeframe (e.g., 5 minutes).
+        \item \textbf{[D\_ASS4]:} Distinguishability of Speed - It is assumed that cycling speeds are sufficiently distinct from walking and driving to allow automated inference.
+    \end{itemize}
+
+    \item \textbf{Protect user privacy while enabling collaboration}
+    \begin{itemize}
+        \item \textbf{[R32]:} The system stores all recorded trips as ``Private'' by default.
+        \item \textbf{[R33]:} The system anonymizes personal identifiers before transferring data to the public inventory during the publication process.
+        \item \textbf{[CON1]:} Regulatory \& Privacy - The system must ensure no personal trip data is exposed unless explicitly published.
+    \end{itemize}
+
+\end{enumerate}
+
+\subsubsection{Traceability Matrix}
+The following table maps the Use Cases described in Section 3.2.2 to the specific Requirements defined in Section 3.2.3.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Use Case} & \textbf{Requirements} \\ 
+            \hline
+            \textbf{UC1: Sign Up} & [R1] \\ 
+            \hline
+            \textbf{UC2: Plan Route} & [R23], [R24], [R25], [R26], [R27], [R28] \\ 
+            \hline
+            \textbf{UC3: Record Personal Trip} & [R2], [R3], [R4], [R5], [R6], [R7], [R8], [R9] \\ 
+            \hline
+            \textbf{UC4: Automated Data Collection} & [R2], [R13], [R14], [R15], [R29], [R30], [R31] \\ 
+            \hline
+            \textbf{UC5: Verify Detected Data} & [R2], [R16], [R17], [R18], [R19] \\ 
+            \hline
+            \textbf{UC6: Report Path Manually} & [R2], [R10], [R11], [R12] \\ 
+            \hline
+            \textbf{UC7: Publish Information} & [R2], [R20], [R21], [R22], [R33] \\ 
+            \hline
+            \textbf{UC8: View Statistics \& History} & [R2], [R7] \\ 
+            \hline
+        \end{tabular}
+    }
+    \caption{Traceability Matrix: Use Cases vs Requirements}
+    \label{tab:traceability_uc_req}
+\end{table}
 
 \subsection{Performance Requirements}
 The Best Bike Paths (BBP) system must ensure fluid interaction and accurate tracking, balancing data precision with battery efficiency.
