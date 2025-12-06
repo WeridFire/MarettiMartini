@@ -441,3 +441,39 @@ The BBP system interacts with the following external software entities:
     \end{center}
 \end{figure}
 \newpage
+
+\subsection{Performance Requirements}
+The Best Bike Paths (BBP) system must ensure fluid interaction and accurate tracking, balancing data precision with battery efficiency.
+
+\begin{itemize}
+    \item \textbf{[PR1] Response Time:} The mobile application shall maintain a high responsiveness. Interactions such as starting/stopping a recording or navigating menus should have a latency of less than \textbf{1 second}.
+    \item \textbf{[PR2] Route Calculation Latency:} When a user requests a route (Scenario 7), the system should retrieve and visualize the calculated paths within \textbf{3 seconds} under normal network conditions.
+    \item \textbf{[PR3] Sensor Data Frequency:} To accurately detect anomalies (potholes/bumps) via the ``Automated Mode'' (Scenario 3), the application must poll the accelerometer and gyroscope at a minimum frequency of \textbf{50 Hz} while the vehicle is in motion.
+    \item \textbf{[PR4] Location Tracking Accuracy:} During trip recording, GPS coordinates must be sampled at a minimum rate of \textbf{1 point every 5 seconds} or \textbf{every 10 meters}, with a horizontal accuracy within 10 meters.
+    \item \textbf{[PR5] Concurrent Users:} The backend system shall support at least \textbf{1,000 concurrent users} sending telemetry data or requesting routes without service degradation.
+    \item \textbf{[PR6] Offline Buffering:} The mobile application must be capable of buffering at least \textbf{24 hours} of trip data and sensor logs locally in case of connectivity loss.
+    \item \textbf{[PR7] Battery Consumption:} The background activity detection and recording service must be optimized to consume no more than \textbf{10\% of the device battery per hour} of active tracking.
+\end{itemize}
+
+\subsection{Design Constraints}
+
+\subsubsection{Standards compliance}
+\begin{itemize}
+    \item \textbf{[DC1] GDPR Compliance:} In accordance with [CON1], all personal data (trip history, precise geolocation) must be stored in compliance with the General Data Protection Regulation (GDPR). The system must allow users to export or delete their data upon request.
+    \item \textbf{[DC2] Map Standards:} The system must utilize standard geospatial data formats (e.g., GeoJSON) for storing and exchanging path and anomaly data.
+    \item \textbf{[DC3] Communication Security:} All data transmission between the mobile client and the backend server must be encrypted.
+\end{itemize}
+
+\subsubsection{Hardware limitations}
+\begin{itemize}
+    \item \textbf{[DC4] Smartphone Sensors:} The application requires the user's device to be equipped with a functioning \textbf{GPS/GNSS receiver}, \textbf{accelerometer}, and \textbf{gyroscope}. The system cannot function fully on devices lacking these sensors.
+    \item \textbf{[DC5] Storage Limits:} To respect device storage limitations, the local buffer for offline trips (DC3) shall utilize a circular buffer or a compression mechanism, capping local storage usage at \textbf{500 MB}.
+    \item \textbf{[DC6] Battery Consumption:} The ``Automated Mode'' and background tracking must be optimized to not drain more than \textbf{10\% of the device's battery per hour} of active usage.
+    \item \textbf{[DC7] Device Placement:} As noted in Domain Assumption \textbf{[D\_ASS3]}, the accuracy of pothole detection is constrained by the physical placement of the phone.
+\end{itemize}
+
+\subsubsection{Any other constraint}
+\begin{itemize}
+    \item \textbf{[DC8] OS Compatibility:} The mobile application must be compatible with \textbf{Android 10.0+} and \textbf{iOS 14.0+} to ensure access to modern background processing APIs required for Requirement R7[cite: 311].
+    \item \textbf{[DC9] Network Dependency for Enrichment:} The weather enrichment feature (Scenario 2) and route planning (Scenario 7) are strictly dependent on an active internet connection. These features are disabled in offline mode.
+\end{itemize}
