@@ -217,4 +217,76 @@ These are outputs or actions taken by the BBP system that actors in the world ca
 \caption{Traceability Matrix: Goals vs Shared Phenomena (Machine Outputs)}
 \end{table}
 
-\subsection{Definitions, Acronyms, Abbrevation}
+
+\subsection{Definitions, Acronyms, Abbreviations}
+
+\subsubsection{Definitions}
+\begin{itemize}
+    \item \textbf{Best Bike Paths (BBP):} The software system to be developed, commissioned by a cyclist association to manage a collaborative inventory of bike paths.
+    \item \textbf{Registered User:} A user who has created an account on the platform. They can record trips, report anomalies, and access their personal history.
+    \item \textbf{Unregistered User:} A user who accesses the platform without an account. They are limited to viewing the map and planning routes without saving data.
+    \item \textbf{Trip:} A recorded session of cycling activity, containing geographical data, time duration, and performance statistics.
+    \item \textbf{Automated Mode:} A system feature that automatically detects cycling activity and records trip data, including sensor-based anomaly detection, without manual intervention.
+    \item \textbf{Manual Mode:} A method of data entry where the user manually inputs details about a path segment, such as its maintenance status or specific obstacles.
+    \item \textbf{Confirmation:} The action taken by a Registered User to validate a potential anomaly detected by the system sensors, marking it as a verified obstacle or discarding it as a false positive.
+    \item \textbf{Anomaly:} An irregularity detected on the road surface (e.g., a pothole or rough terrain) by the mobile device's sensors (accelerometer and gyroscope).
+    \item \textbf{Path Score:} A numerical value calculated by the system to rank bike paths based on their maintenance status and efficiency in reaching a destination.
+    \item \textbf{Publishable Information:} Data (trips, anomalies, or path status) that a Registered User has explicitly marked as public, making it visible to the entire community.
+\end{itemize}
+
+\subsubsection{Acronyms}
+\begin{itemize}
+    \item \textbf{BBP:} Best Bike Paths
+    \item \textbf{GPS:} Global Positioning System
+    \item \textbf{API:} Application Programming Interface
+    \item \textbf{GDPR:} General Data Protection Regulation
+    \item \textbf{UI:} User Interface
+    \item \textbf{UML:} Unified Modeling Language
+    \item \textbf{BPMN:} Business Process Model and Notation
+\end{itemize}
+
+\subsubsection{Abbreviations}
+\begin{itemize}
+    \item \textbf{G$n$:} Goal number $n$
+    \item \textbf{WP$n$:} World Phenomenon number $n$
+    \item \textbf{WM$n$:} Shared Phenomenon Controlled by the World, Observed by the Machine number $n$
+    \item \textbf{MW$n$:} Shared Phenomenon Controlled by the Machine, Observed by the World number $n$
+    \item \textbf{S$n$:} Scenario number $n$
+    \item \textbf{UC$n$:} Use Case number $n$
+    \item \textbf{R$n$:} Functional Requirement number $n$
+    \item \textbf{PR$n$:} Performance Requirement number $n$
+    \item \textbf{D\_ASS$n$:} Domain Assumption number $n$
+    \item \textbf{CON$n$:} Constraint number $n$
+    \item \textbf{DC$n$:} Design Constraint number $n$
+    \item \textbf{SSA$n$:} Software System Attribute number $n$
+\end{itemize}
+    
+\end{itemize}
+\subsection{Revision History}
+
+
+\subsection{Reference Documents}
+\begin{itemize}
+        \item Specification document: "Assignment RDD AY 2025-2026"
+        \item Official alloy documentation: \underline{\url{https://alloytools.org/documentation.html}}
+        \item UML official specification \underline{\url{https://www.planttext.com/}}
+        \item BPMN official specification \underline{\url{https://bpmn.io/}}
+\end{itemize}
+\subsection{Document Structure}
+The document is organized into five main chapters, structured as follows:
+\begin{itemize}
+    \item \textbf{Section 1: Introduction} \\
+    This chapter provides a high-level overview of the Best Bike Paths (BBP) project, defining its scope and primary objectives. It establishes the terminology used throughout the document by listing definitions and acronyms. Additionally, it tracks the document's evolution through the revision history and outlines the organization of the subsequent sections.
+
+    \item \textbf{Section 2: Overall Description} \\
+    This section defines the context in which the system operates. It illustrates the interaction between users and the system through realistic scenarios and identifies the various actors involved. Furthermore, it provides a general overview of the product's functions, while detailing the hardware and software constraints, dependencies, and assumptions that influence the design.
+
+    \item \textbf{Section 3: Specific Requirements} \\
+    This chapter represents the core of the specification, detailing the functional and non-functional requirements of the system. The functional aspects are modeled and visualized using UML diagrams (Use Case and Sequence diagrams) to define system behavior. Finally, a traceability matrix maps these requirements back to the initial goals to ensure complete coverage.
+
+    \item \textbf{Section 4: Formal Analysis using Alloy} \\
+    This section presents a formal verification of specific critical aspects of the system. It describes the Alloy model constructed to validate the consistency and correctness of the requirements, discussing the results of the assertions checks and the generated worlds.
+
+    \item \textbf{Section 5: Effort Spent} \\
+    The final section provides a breakdown of the time and effort invested by each group member in the analysis and drafting of this document.
+\end{itemize}
