@@ -1,0 +1,49 @@
+\documentclass{article}
+
+\usepackage{pre/docstyle}
+
+\usepackage{graphicx}
+\renewcommand{\thesubsection}{\Alph{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{listing}
+
+
+\title{\textbf{DD: BBP}}
+\begin{document}
+\begin{titlepage}
+    \centering
+    {\scshape\large AY 2025/2026 \par}
+    \vfill
+    \includegraphics[width=100pt]{DD/img/section1/logo-polimi-new.pdf}\par\vspace{1cm}
+    {\scshape\LARGE Politecnico di Milano \par}
+    \vspace{1.5cm}
+    {\huge\bfseries DD\@: Design Document \par}
+    \vspace{2cm}
+    {\large {Filippo Maretti\quad Davide Martini\par}
+    \vfill
+    {\large Professor\par
+        Matteo Giovanni Rossi}
+    \vfill
+    {\large}}
+\end{titlepage}
+\clearpage
+\tableofcontents
+\pagenumbering{gobble}
+\clearpage
+\pagenumbering{arabic}
+\include{latex/section1}
+\include{latex/section2}
+\include{latex/section3}
+\include{latex/section4}
+\include{latex/section5}
+
+
+
+
+
+\end{document}
