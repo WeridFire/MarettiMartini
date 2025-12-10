@@ -4,7 +4,7 @@
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{DD/img/section2/client-server-1.png} 
+    \includegraphics[width=0.8\textwidth]{DD/img/section2/client-server-1.png} 
     \caption{Client-Server paradigm}
     \label{fig:client_server}
 \end{figure}
@@ -28,7 +28,7 @@ Specifically, the BBP system deviates from a traditional thin-client web applica
     \centering
     \includegraphics[width=1\textwidth]{DD/img/section2/arc.png} 
     \caption{Thick Client and Fat Server.}
-    \label{fig:three_layers}
+    \label{fig:Client-Server}
 \end{figure}
 
 
@@ -48,10 +48,15 @@ The system is logically structured into three fundamental layers, distributed ac
     \item \textbf{Data Layer:} Manages the secure storage and retrieval of information. It consists of a Central DBMS (on the server) acting as the single source of truth for public data and user accounts, and a Local Storage (on the client) acting as a temporary buffer and cache to guarantee offline availability \textbf{[SSA3]}.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{DD/img/section2/Layers.png} 
+    \caption{Three Layers Application}
+    \label{fig:three_layers}
+\end{figure}
+
 \paragraph{Physical Tiers}
 The logical architecture described above is deployed physically across distinct Tiers (processing nodes):
-
-
 
 \begin{itemize}
     \item \textbf{Tier 1 (Client Tier):} Composed of the users' mobile devices (Smartphones). It executes the BBP mobile application and communicates via secure HTTPS protocol.
@@ -62,3 +67,10 @@ The logical architecture described above is deployed physically across distinct 
     
     \item \textbf{External Tier:} Includes third-party services essential for system operation, specifically Map Providers (e.g., Google Maps/OpenStreetMap) and Weather Services (e.g., OpenWeatherMap), integrated via dedicated API interfaces.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{DD/img/section2/Architecture.png} 
+    \caption{Architecture of the application}
+    \label{fig:Architecture}
+\end{figure}
