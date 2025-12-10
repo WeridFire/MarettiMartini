@@ -13,7 +13,6 @@ The \textit{Best Bike Paths} (BBP) system is designed as a distributed applicati
 
 Given the specific nature of the functional requirements, particularly the need for real-time sensor data acquisition \textbf{[G5]} and the capability to operate in the absence of network connectivity \textbf{[CON3]}, the system implements a distributed processing logic where the computational load is strategically balanced between the user's device and the central server.
 
-\vspace{0.5cm} % Un po' di spazio per separare i blocchi logici
 
 \paragraph{Client-Server Paradigm and Client Typology}
 Specifically, the BBP system deviates from a traditional thin-client web application model, adopting instead a \textbf{Thick Client} approach for its mobile component.
@@ -30,7 +29,7 @@ The system is logically structured into three fundamental layers, distributed ac
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{} 
+    \includegraphics[width=1\textwidth]{DD/img/section2/arc.png} 
     \caption{Three layers application}
     \label{fig:three_layers}
 \end{figure}
@@ -50,12 +49,7 @@ The system is logically structured into three fundamental layers, distributed ac
 \paragraph{Physical Tiers}
 The logical architecture described above is deployed physically across distinct Tiers (processing nodes):
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{} 
-    \caption{Architecture of the application}
-    \label{fig:architecture_tiers}
-\end{figure}
+
 
 \begin{itemize}
     \item \textbf{Tier 1 (Client Tier):} Composed of the users' mobile devices (Smartphones). It executes the BBP mobile application and communicates via secure HTTPS protocol.
