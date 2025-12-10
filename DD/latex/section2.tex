@@ -1,0 +1,68 @@
+\section{Architectural Design}
+
+\subsection{Overview: high-level components and interactions}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{DD/img/section2/client-server-1.png} 
+    \caption{Client-Server paradigm}
+    \label{fig:client_server}
+\end{figure}
+
+The \textit{Best Bike Paths} (BBP) system is designed as a distributed application adhering to the \textbf{Client-Server paradigm} (represented in Figure \ref{fig:client_server}). The architecture is engineered to support two primary user categories: \textit{Registered Users}, who actively contribute data through trip recordings and reports, and \textit{Unregistered Users}, who utilize the system primarily for navigation and route planning services.
+
+Given the specific nature of the functional requirements, particularly the need for real-time sensor data acquisition \textbf{[G5]} and the capability to operate in the absence of network connectivity \textbf{[CON3]}, the system implements a distributed processing logic where the computational load is strategically balanced between the user's device and the central server.
+
+\vspace{0.5cm} % Un po' di spazio per separare i blocchi logici
+
+\paragraph{Client-Server Paradigm and Client Typology}
+Specifically, the BBP system deviates from a traditional thin-client web application model, adopting instead a \textbf{Thick Client} approach for its mobile component.
+
+\begin{itemize}
+    \item \textbf{Mobile Application (Thick Client):} The application deployed on user smartphones (iOS/Android) is not limited to the mere presentation of data (Presentation Layer) but hosts a significant portion of the \textit{Business Logic}.
+    \\ \textit{Rationale:} As specified in non-functional requirements \textbf{[PR3]} (Sensor Data Frequency) and \textbf{[PR6]} (Offline Buffering), the application must process high-frequency accelerometer data in real-time to detect road anomalies and must ensure data persistence even without an active internet connection. These operations require local processing power and an internal database on the device, characterizing the application as a Thick Client.
+
+    \item \textbf{Backend Server (Fat Server):} The central server remains the authoritative node regarding long-term data persistence, identity management, the consistency of shared data (Public Inventory), and computationally intensive operations requiring aggregated data \textbf{[G9]}.
+\end{itemize}
+
+\paragraph{Layered Architecture}
+The system is logically structured into three fundamental layers, distributed across the various nodes:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{} 
+    \caption{Three layers application}
+    \label{fig:three_layers}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Presentation Layer:} Resides entirely on the Mobile Client. It is responsible for all user interactions, the rendering of map tiles, and the visualization of statistical graphs. It also handles tactile input for the verification of automatically detected anomalies \textbf{[G6]}.
+    
+    \item \textbf{Application Logic Layer:} This layer is distributed.
+    \begin{itemize}
+        \item \textit{Client-Side:} manages the polling of hardware sensors, the algorithm for pothole detection, the lifecycle of trip recording, and the synchronization of local buffers.
+        \item \textit{Server-Side:} manages authentication, validation of incoming data packets, integration with external Weather APIs \textbf{[G3]}, and the core pathfinding algorithms \textbf{[G8]}.
+    \end{itemize}
+    
+    \item \textbf{Data Layer:} Manages the secure storage and retrieval of information. It consists of a Central DBMS (on the server) acting as the single source of truth for public data and user accounts, and a Local Storage (on the client) acting as a temporary buffer and cache to guarantee offline availability \textbf{[SSA3]}.
+\end{itemize}
+
+\paragraph{Physical Tiers}
+The logical architecture described above is deployed physically across distinct Tiers (processing nodes):
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{} 
+    \caption{Architecture of the application}
+    \label{fig:architecture_tiers}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Tier 1 (Client Tier):} Composed of the users' mobile devices (Smartphones). It executes the BBP mobile application and communicates via secure HTTPS protocol.
+    
+    \item \textbf{Tier 2 (Application Tier):} Composed of the servers hosting the BBP backend logic. This tier exposes the RESTful APIs consumed by the client. To ensure reliability \textbf{[SSA4]} and scalability \textbf{[PR5]}, this tier typically includes Load Balancers to distribute traffic among multiple server instances.
+    
+    \item \textbf{Tier 3 (Data Tier):} Composed of servers dedicated to the Database Management System (DBMS). This tier is isolated for security and performance reasons and is accessible only by Tier 2.
+    
+    \item \textbf{External Tier:} Includes third-party services essential for system operation, specifically Map Providers (e.g., Google Maps/OpenStreetMap) and Weather Services (e.g., OpenWeatherMap), integrated via dedicated API interfaces.
+\end{itemize}
