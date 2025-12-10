@@ -74,3 +74,47 @@ The logical architecture described above is deployed physically across distinct 
     \caption{Architecture of the application}
     \label{fig:Architecture}
 \end{figure}
+\subsection{Component view}
+
+Figure \ref{fig:component_diagram} illustrates the internal decomposition of the system into logical modules and their dependencies. The architecture is split between the Mobile Client, responsible for real-time data acquisition, and the Backend Server, responsible for data aggregation and heavy lifting.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{DD/img/section2/component_view.png}
+    \caption{High-level Component Diagram of BBP System}
+    \label{fig:component_diagram}
+\end{figure}
+
+\paragraph{BBP Mobile Application Components (Client-Side)}
+As a ``Thick Client'', the mobile application hosts significant business logic to ensure responsiveness and offline capabilities [CON3].
+
+\begin{itemize}
+    \item \textbf{View Manager (UI Layer)}: This component handles the rendering of the user interface. It manages the dashboard, the map visualization (integrating map tiles from the external provider), and user interaction flows. It implements the Model-View-Controller (MVC) pattern to separate presentation from logic.
+
+    \item \textbf{Sensor Handler}: A critical module responsible for interacting with the device hardware. It performs continuous polling of the \textit{Accelerometer}, \textit{Gyroscope}, and \textit{GPS} at high frequency (50Hz) [PR3]. It implements local filtering algorithms to distinguish between user movements (e.g., pedaling) and road anomalies (e.g., potholes), reducing false positives before storage.
+
+    \item \textbf{Trip Controller}: This component manages the lifecycle of a cycling session (Start, Pause, Stop). It orchestrates the flow of data between the \textit{Sensor Handler} and the \textit{Local Storage Manager}, ensuring recording continues seamlessly in the background.
+
+    \item \textbf{Local Storage Manager}: Acts as the interface for the local database (e.g., SQLite). It handles the persistence of raw sensor data, temporary trip logs, and cached map data, ensuring data integrity in case of unexpected application termination.
+
+    \item \textbf{Sync Manager}: Responsible for data synchronization. It monitors connectivity status and, when available, uploads pending trips/anomalies to the backend while downloading updates for the local cache.
+
+    \item \textbf{Network Manager}: Handles all HTTP/HTTPS communications, managing API request headers, token authentication (JWT), and response parsing.
+\end{itemize}
+
+\paragraph{BBP Backend Server Components (Server-Side)}
+The backend server acts as the centralized authority for data aggregation and user management.
+
+\begin{itemize}
+    \item \textbf{API Gateway}: The single entry point for all client requests. It handles routing, rate limiting, and validates authentication tokens before forwarding requests to internal managers.
+
+    \item \textbf{User Account Manager}: Manages user identities, registration, and login processes. It interacts with the DBMS to store credentials securely.
+
+    \item \textbf{Trip Processing Manager}: Receives raw trip data, performs post-processing, calculates final statistics, and invokes the \textit{Weather Connector} to enrich trips with meteorological data [G3].
+
+    \item \textbf{Path Inventory Manager}: The core component for the collaborative map. It stores confirmed anomalies, manages data visibility (Private vs. Public), and executes anonymization routines to strip personal identifiers from published data [G11].
+
+    \item \textbf{Routing Engine}: Calculates optimal bike paths based on user queries. It weights graph edges using the \textbf{Path Score} derived from the \textit{Path Inventory Manager}, prioritizing safety and maintenance over distance [G9].
+
+    \item \textbf{External Service Connectors}: Adapters that communicate with external APIs (Weather Service for conditions, Map Service for topology).
+\end{itemize}
