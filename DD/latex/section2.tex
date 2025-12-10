@@ -24,15 +24,17 @@ Specifically, the BBP system deviates from a traditional thin-client web applica
     \item \textbf{Backend Server (Fat Server):} The central server remains the authoritative node regarding long-term data persistence, identity management, the consistency of shared data (Public Inventory), and computationally intensive operations requiring aggregated data \textbf{[G9]}.
 \end{itemize}
 
-\paragraph{Layered Architecture}
-The system is logically structured into three fundamental layers, distributed across the various nodes:
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{DD/img/section2/arc.png} 
-    \caption{Three layers application}
+    \caption{Thick Client and Fat Server.}
     \label{fig:three_layers}
 \end{figure}
+
+
+\paragraph{Layered Architecture}
+The system is logically structured into three fundamental layers, distributed across the various nodes:
+
 
 \begin{itemize}
     \item \textbf{Presentation Layer:} Resides entirely on the Mobile Client. It is responsible for all user interactions, the rendering of map tiles, and the visualization of statistical graphs. It also handles tactile input for the verification of automatically detected anomalies \textbf{[G6]}.
