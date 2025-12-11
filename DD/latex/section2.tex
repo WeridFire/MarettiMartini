@@ -118,3 +118,34 @@ The backend server acts as the centralized authority for data aggregation and us
 
     \item \textbf{External Service Connectors}: Adapters that communicate with external APIs (Weather Service for conditions, Map Service for topology).
 \end{itemize}
+
+\subsection{Deployment view}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{DD/img/section2/Deployment View.png} 
+    \caption{Deployment Diagram}
+    \label{fig:deployment_diagram}
+\end{figure}
+
+The deployment diagram in Figure \ref{fig:deployment_diagram} shows the hardware components needed for correct system behavior and the protocols used for communication.
+As shown in the image, the architecture includes infrastructure elements such as Firewalls and Load Balancers to manage the data stream from user devices to the backend servers.
+
+First of all, \textbf{Firewalls} are in charge of filtering packets received from the Internet to ensure network security. Then, the packets pass through the \textbf{Load Balancer}, where the workload is distributed among the available server instances to increase capacity, reliability, and fault tolerance \textbf{[SSA4]}.
+
+Each device has its own Operating System where the software runs. The tiers represented in the diagram are the following:
+
+\begin{itemize}
+    \item \textbf{Tier 1 (Client Device):} It is the client machine, specifically the users' smartphones (Android or iOS). It executes the BBP Mobile Application (Thick Client). Unlike a traditional web client, this tier utilizes local hardware resources not only for presentation but also for:
+    \begin{itemize}
+        \item \textbf{Processing:} executing the anomaly detection algorithms on raw sensor data.
+        \item \textbf{Storage:} managing the Local Database (SQLite/Realm) to buffer trip data when offline connectivity is detected \textbf{[CON3]}.
+    \end{itemize}
+
+    \item \textbf{Tier 2 (Application Server):} It contains the application servers, which run the core functionalities of the BBP system. The entire server-side application logic (described in Section 2.2) is mapped into this tier.
+    It communicates with the Client Tier through secure RESTful APIs (HTTPS/JSON). Ideally, this tier is composed of a cluster of replicated servers to guarantee scalability \textbf{ [PR5]}. It acts as the orchestrator, processing requests, calculating path scores, and interacting with external services.
+
+    \item \textbf{Tier 3 (Data Server):} It is composed of servers dedicated to the Database Management System (DBMS). They store persistent data (User profiles, Trip History, Public Path Inventory) and execute queries according to the instructions given by the Application Servers. To ensure performance, this tier is physically separated from the application logic.
+
+    \item \textbf{External Services:} While not a tier under the direct control of the BBP system, this node represents the third-party providers (Map Service and Weather Service) that the Application Server contacts via specific APIs to enrich trip data and perform geocoding tasks.
+\end{itemize}
