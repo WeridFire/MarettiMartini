@@ -109,13 +109,61 @@ The BBP system interacts with the following external software entities:
     \end{center}
 \end{figure}
 
+%% LOG IN
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
+\hline
+\textbf{ID} & UC2 \\ \hline
+\textbf{Name} & Log In \\ \hline
+\textbf{Actor} & Registered User \\ \hline
+\textbf{Entry conditions} & The User has opened the application but is not currently authenticated. The User already possesses a registered account. \\ \hline
+\textbf{Input} & \texttt{email} (or \texttt{username}), \texttt{password} \\ \hline
+\textbf{Events flow} & 
+    \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The application displays the initial screen with the ``Log In'' option.
+        \item The User selects the ``Log In'' option.
+        \item The application displays the credential entry form.
+        \item The User inserts their email (or username) and password.
+        \item The User clicks the ``Log In'' button.
+        \item The System verifies the correctness of the credentials against the database.
+        \item The System authenticates the User and generates a session.
+        \item The application redirects the User to the main Dashboard (Home Page).
+    \end{enumerate} 
+    \\ \hline
+\textbf{Exit conditions} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item The User is successfully authenticated.
+        \item The User is redirected to the main Dashboard.
+    \end{itemize}
+    \\ \hline
+\textbf{Output} & 
+    \begin{itemize}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
+        \item Access granted to personalized features.
+        \item User session active.
+    \end{itemize}
+    \\ \hline
+\textbf{Exceptions} & 
+\textbf{Invalid Credentials:} If the User enters an incorrect email or password, the application displays an error message (e.g., ``Invalid credentials'') and invites the User to retry, keeping them on the Log In screen. \\ \hline
+\end{tabularx}
+\caption{Use Case 2: Log In}
+\label{tab:uc2_login}
+\end{table}
+%% LOGIN SEQDIAG
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[width=\textwidth]{RASD/img/section3/SD9.png}
+        \caption{Log In}
+    \end{center}
+\end{figure}
+
 
 %%PLAN ROUTE
 \begin{table}[H]
 \centering
 \begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
 \hline
-\textbf{ID} & UC2 \\ \hline
+\textbf{ID} & UC3 \\ \hline
 \textbf{Name} & Plan Route \\ \hline
 \textbf{Actor} & Unregistered User, Registered User \\ \hline
 \textbf{Entry conditions} & The User has opened the application and accessed the ``Explore'' section. \\ \hline
@@ -146,8 +194,8 @@ The BBP system interacts with the following external software entities:
 \textbf{Exceptions} & 
 \textbf{No Path Found:} If no route connects the points, the application displays a generic error message ("No bike paths found") and keeps the User on the search view. \\ \hline
 \end{tabularx}
-\caption{Use Case 2: Plan Route}
-\label{tab:uc2_planroute}
+\caption{Use Case 3: Plan Route}
+\label{tab:uc3_planroute}
 \end{table}
 %% PLAN ROUTE SEQDIAG
 \begin{figure}[H]
@@ -163,7 +211,7 @@ The BBP system interacts with the following external software entities:
 \centering
 \begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
 \hline
-\textbf{ID} & UC3 \\ \hline
+\textbf{ID} & UC4 \\ \hline
 \textbf{Name} & Record Personal Trip \\ \hline
 \textbf{Actor} & Registered User \\ \hline
 \textbf{Entry conditions} & The User has logged in and is ready to start a cycling activity. \\ \hline
@@ -196,8 +244,8 @@ The BBP system interacts with the following external software entities:
 \textbf{Exceptions} & 
 \textbf{No GPS/Connectivity:} If GPS is weak, the System notifies the user. If internet is missing at the end of the trip, the System saves the raw data locally and retries fetching weather data once connectivity is restored. \\ \hline
 \end{tabularx}
-\caption{Use Case 3: Record Personal Trip}
-\label{tab:uc3_recordtrip}
+\caption{Use Case 4: Record Personal Trip}
+\label{tab:uc4_recordtrip}
 \end{table}
 %% RECORD A PERSONAL TRIP SEQDIAG
 \begin{figure}[H]
@@ -213,7 +261,7 @@ The BBP system interacts with the following external software entities:
 \centering
 \begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
 \hline
-\textbf{ID} & UC4 \\ \hline
+\textbf{ID} & UC5 \\ \hline
 \textbf{Name} & Automated Data Collection \\ \hline
 \textbf{Actor} & Registered User (Passive), System (Active) \\ \hline
 \textbf{Entry conditions} & The User has logged in, enabled ``Automated Mode'' in settings, and starts cycling. \\ \hline
@@ -245,8 +293,8 @@ The BBP system interacts with the following external software entities:
 \textbf{Exceptions} & 
 \textbf{Low Battery:} If the device battery drops below a certain threshold, the System stops background monitoring to preserve power and saves the current state. \\ \hline
 \end{tabularx}
-\caption{Use Case 4: Automated Data Collection}
-\label{tab:uc4_autocollection}
+\caption{Use Case 5: Automated Data Collection}
+\label{tab:uc5_autocollection}
 \end{table}
 
 %% AUTOMATED DATA COLLECTION SEQDIAG
@@ -263,10 +311,10 @@ The BBP system interacts with the following external software entities:
 \centering
 \begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
 \hline
-\textbf{ID} & UC5 \\ \hline
+\textbf{ID} & UC6 \\ \hline
 \textbf{Name} & Verify Detected Data \\ \hline
 \textbf{Actor} & Registered User \\ \hline
-\textbf{Entry conditions} & The User taps on the ``Verify Anomalies'' notification from UC4 or opens a trip with pending anomalies. \\ \hline
+\textbf{Entry conditions} & The User taps on the ``Verify Anomalies'' notification from UC5 or opens a trip with pending anomalies. \\ \hline
 \textbf{Input} & User Confirmation (Confirm/Reject) \\ \hline
 \textbf{Events flow} & 
     \begin{enumerate}[nosep, leftmargin=*, before=\vspace{0.3em}, after=\vspace{0.3em}]
@@ -289,8 +337,8 @@ The BBP system interacts with the following external software entities:
 \textbf{Exceptions} & 
 \textbf{False Positive:} If the User clicks ``Reject'' (e.g., they jumped a curb), the application removes the pin from the map and deletes the temporary anomaly data. \\ \hline
 \end{tabularx}
-\caption{Use Case 5: Verify Detected Data}
-\label{tab:uc5_verifydata}
+\caption{Use Case 6: Verify Detected Data}
+\label{tab:uc6_verifydata}
 \end{table}
 %% VERIFY DETECTED DATA SEQDIAG
 \begin{figure}[H]
@@ -307,7 +355,7 @@ The BBP system interacts with the following external software entities:
 \centering
 \begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
 \hline
-\textbf{ID} & UC6 \\ \hline
+\textbf{ID} & UC7 \\ \hline
 \textbf{Name} & Report Path Manually \\ \hline
 \textbf{Actor} & Registered User \\ \hline
 \textbf{Entry conditions} & The User has logged in and selected the ``Report Path'' function. \\ \hline
@@ -333,8 +381,8 @@ The BBP system interacts with the following external software entities:
 \textbf{Exceptions} & 
 \textbf{Invalid Location:} If the selected point is not on a known bike path entity, the System warns the user: ``No mapped bike path at this location.'' \\ \hline
 \end{tabularx}
-\caption{Use Case 6: Report Path Manually}
-\label{tab:uc6_manualreport}
+\caption{Use Case 7: Report Path Manually}
+\label{tab:uc7_manualreport}
 \end{table}
 \begin{figure}[H]
     \begin{center}
@@ -349,7 +397,7 @@ The BBP system interacts with the following external software entities:
 \centering
 \begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
 \hline
-\textbf{ID} & UC7 \\ \hline
+\textbf{ID} & UC8 \\ \hline
 \textbf{Name} & Publish Information \\ \hline
 \textbf{Actor} & Registered User \\ \hline
 \textbf{Entry conditions} & The User is viewing a private Trip or Report in their history. \\ \hline
@@ -375,8 +423,8 @@ The BBP system interacts with the following external software entities:
 \textbf{Exceptions} & 
 \textbf{Server Error:} If the update fails, the System informs the user and retains the data state as Private. \\ \hline
 \end{tabularx}
-\caption{Use Case 7: Publish Information}
-\label{tab:uc7_publish}
+\caption{Use Case 8: Publish Information}
+\label{tab:uc8_publish}
 \end{table}
 %% PUBLISH INFORMATION SEQDIAG
 \begin{figure}[H]
@@ -392,7 +440,7 @@ The BBP system interacts with the following external software entities:
 \centering
 \begin{tabularx}{\textwidth}{|m{3.5cm}|X|}
 \hline
-\textbf{ID} & UC8 \\ \hline
+\textbf{ID} & UC9 \\ \hline
 \textbf{Name} & View Statistics and History \\ \hline
 \textbf{Actor} & Registered User \\ \hline
 \textbf{Entry conditions} & The User has logged in and is currently on the main dashboard. \\ \hline
@@ -427,8 +475,8 @@ The BBP system interacts with the following external software entities:
 \textbf{Exceptions} & 
 \textbf{No History Available:} If the User has not recorded any trips yet, the application displays a placeholder message: ``No trips recorded yet. Start riding!'' and offers a button to start a new recording. \\ \hline
 \end{tabularx}
-\caption{Use Case 8: View Statistics and History}
-\label{tab:uc8_viewhistory}
+\caption{Use Case 9: View Statistics and History}
+\label{tab:uc9_viewhistory}
 \end{table}
 
 %% VIEW STATISTIC AND HISTORY SEQDIAG
