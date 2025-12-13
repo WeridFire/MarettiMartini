@@ -151,6 +151,7 @@ Each device has its own Operating System where the software runs. The tiers repr
 \end{itemize}
 \clearpage
 
+\subsection{Runtime View}
 \subsubsection{User Registration}
 This runtime view illustrates the onboarding process for a new user. The flow initiates in the View Manager, which collects the user's personal details (username, email, password). These are passed to the Network Manager, which handles the secure transmission to the API Gateway on the server. The request is routed to the User Manager, which queries the Central DBMS to verify that the email is not already in use. Upon successful validation, the manager creates a new user record in the database, completing the registration phase.
 \begin{figure}[H]
@@ -160,11 +161,29 @@ This runtime view illustrates the onboarding process for a new user. The flow in
 \end{figure}
 \clearpage
 
+\subsubsection{User Login}
+This sequence describes the establishment of a secure session. The user enters credentials via the View Manager, which are transmitted by the Network Manager to the backend. The User Account Manager authenticates the credentials against the Central DBMS. If valid, the server generates a secure session token (JWT) and returns it to the client. The diagram highlights the critical role of the Local Storage Manager in securely caching this token on the device, ensuring session persistence and eliminating the need for constant re-authentication.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv2.png} 
+    \caption{User Login}
+\end{figure}
+\clearpage
+
 \subsubsection{Route Planning and Scoring}
 This sequence describes the interaction required to generate an optimized cycling route. The process is triggered by a query in the View Manager, which is forwarded via API to the Routing Engine on the backend. This view is critical as it demonstrates the server-side aggregation logic: the Routing Engine must simultaneously retrieve topological data from the External Map Service and quality metrics from the Path Inventory Manager (visualized as Inventory Manager). The diagram details how these sources are synthesized to calculate the ``Path Score,'' returning a ranked list of routes to the client.
 \begin{figure}[H]
     \centering
 \includegraphics[width=\textwidth]{DD/img/section2/rv/rv3.png} 
     \caption{Route Planning and Scoring}
+\end{figure}
+\clearpage
+
+\subsubsection{User Login}
+This view depicts the core "Thick Client" logic, emphasizing the system's ability to function without network connectivity. The sequence is orchestrated locally by the Trip Manager, which initializes the session. The diagram focuses on the high-frequency interaction between the Sensor Handler and the hardware sensors, showing how raw telemetry is filtered in real-time. Crucially, it illustrates the exclusive reliance on the Local Storage Manager during the active trip, ensuring that all data is buffered to the internal SQLite database to prevent data loss.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv4.png} 
+    \caption{User Login}
 \end{figure}
 \clearpage
