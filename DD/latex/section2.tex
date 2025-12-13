@@ -149,3 +149,22 @@ Each device has its own Operating System where the software runs. The tiers repr
 
     \item \textbf{External Services:} While not a tier under the direct control of the BBP system, this node represents the third-party providers (Map Service and Weather Service) that the Application Server contacts via specific APIs to enrich trip data and perform geocoding tasks.
 \end{itemize}
+\clearpage
+
+\subsubsection{User Registration}
+This runtime view illustrates the onboarding process for a new user. The flow initiates in the View Manager, which collects the user's personal details (username, email, password). These are passed to the Network Manager, which handles the secure transmission to the API Gateway on the server. The request is routed to the User Manager, which queries the Central DBMS to verify that the email is not already in use. Upon successful validation, the manager creates a new user record in the database, completing the registration phase.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv1.png} 
+    \caption{User Registration}
+\end{figure}
+\clearpage
+
+\subsubsection{Route Planning and Scoring}
+This sequence describes the interaction required to generate an optimized cycling route. The process is triggered by a query in the View Manager, which is forwarded via API to the Routing Engine on the backend. This view is critical as it demonstrates the server-side aggregation logic: the Routing Engine must simultaneously retrieve topological data from the External Map Service and quality metrics from the Path Inventory Manager (visualized as Inventory Manager). The diagram details how these sources are synthesized to calculate the ``Path Score,'' returning a ranked list of routes to the client.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv3.png} 
+    \caption{Route Planning and Scoring}
+\end{figure}
+\clearpage
