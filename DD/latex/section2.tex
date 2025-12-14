@@ -197,11 +197,29 @@ This runtime view details the "handover" mechanism that moves data from the loca
 \end{figure}
 \clearpage
 
+\subsubsection{Post-Trip Data Enrichment}
+This sequence describes the server-side data processing that occurs immediately after a trip upload. The interaction is driven by the Trip Manager, which parses the uploaded geospatial data. The view highlights the integration with the Weather Connector, showing how specific timestamps and coordinates are used to query the External Weather Service API. The sequence concludes with the merging of this contextual meteorological data into the trip record and its final persistence in the Central DBMS, ensuring that statistical reports are rich and accurate.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv6.png} 
+    \caption{Post-Trip Data Enrichment}
+\end{figure}
+\clearpage
+
 \subsubsection{Anomaly Verification and Confirmation}
 This view outlines the collaborative verification process, which transforms automated sensor flags into confirmed community data. The sequence begins with the View Manager presenting "Suspected Anomalies" retrieved from Local Storage to the user. The diagram traces the flow of a user's confirmation action (Confirm/Reject) through the Sync Manager to the backend. It specifically highlights the role of the Path Inventory Manager in receiving this validation and updating the status of the anomaly in the Central DBMS from a tentative flag to a verified obstacle.
 \begin{figure}[H]
     \centering
 \includegraphics[width=\textwidth]{DD/img/section2/rv/rv7.png} 
+    \caption{Anomaly Verification and Confirmation}
+\end{figure}
+\clearpage
+
+\subsubsection{Data Publication and Anonymization}
+This runtime view addresses the privacy constraints required when sharing personal data with the public inventory. The sequence is triggered when a user selects a private trip for publication. The diagram focuses on the Path Inventory Manager executing the anonymization routine, explicitly showing the removal of the User ID and the truncation of start/end coordinates before the data is committed to the Public Inventory. It concludes with the Routing Engine being triggered to recalculate path scores based on this newly available public data.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv8.png} 
     \caption{Anomaly Verification and Confirmation}
 \end{figure}
 \clearpage
