@@ -187,3 +187,21 @@ This view depicts the core "Thick Client" logic, emphasizing the system's abilit
     \caption{User Login}
 \end{figure}
 \clearpage
+
+\subsubsection{Data Synchronization and Upload}
+This runtime view details the "handover" mechanism that moves data from the local buffer to the central system once connectivity is restored. The sequence is initiated by the Sync Manager, which monitors network status in the background. The diagram shows the Sync Manager retrieving pending trips from Local Storage and batching them to the API Gateway. It further illustrates the server-side acknowledgment from the Trip Manager, allowing the client to safely flag the local records as "Synced" and free up storage space.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv5.png} 
+    \caption{Data Synchronization and Upload}
+\end{figure}
+\clearpage
+
+\subsubsection{Anomaly Verification and Confirmation}
+This view outlines the collaborative verification process, which transforms automated sensor flags into confirmed community data. The sequence begins with the View Manager presenting "Suspected Anomalies" retrieved from Local Storage to the user. The diagram traces the flow of a user's confirmation action (Confirm/Reject) through the Sync Manager to the backend. It specifically highlights the role of the Path Inventory Manager in receiving this validation and updating the status of the anomaly in the Central DBMS from a tentative flag to a verified obstacle.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv7.png} 
+    \caption{Anomaly Verification and Confirmation}
+\end{figure}
+\clearpage
