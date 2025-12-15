@@ -233,6 +233,15 @@ This view demonstrates the background monitoring capability required to detect c
 \end{figure}
 \clearpage
 
+\subsubsection{Manual Path Reporting}
+This sequence details the flow for user-initiated reports regarding path conditions. The interaction begins in the View Manager, where the user selects a map location. The diagram emphasizes the "Offline-First" design: the Trip Controller first saves the report object via the Local Storage Manager, ensuring instantaneous user feedback. The Sync Manager is then shown detecting this new pending object and transmitting it to the Path Inventory Manager on the server for validation and storage in the Central DBMS.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv10.png} 
+    \caption {Manual Path Reporting}
+\end{figure}
+\clearpage
+
 \subsubsection{History Retrieval and Visualization}
 This view describes the data retrieval process for viewing past activities, showcasing the hybrid data loading strategy. The sequence is initiated when the user accesses the history screen. The diagram illustrates parallel retrieval: the View Manager immediately renders cached summaries from Local Storage for instant feedback, while the Sync Manager simultaneously queries the API Gateway for any updates. The flow concludes with the Sync Manager updating the local database with data received from the server, ensuring consistency between the two sources.
 \begin{figure}[H]
