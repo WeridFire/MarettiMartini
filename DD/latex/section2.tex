@@ -223,3 +223,21 @@ This runtime view addresses the privacy constraints required when sharing person
     \caption{Anomaly Verification and Confirmation}
 \end{figure}
 \clearpage
+
+\subsubsection{Automatic Activity Recognition}
+This view demonstrates the background monitoring capability required to detect cycling without user intervention. The sequence shows the Sensor Handler operating in a low-power mode (to adhere to battery constraints), periodically sampling the accelerometer. The diagram illustrates the transition from passive monitoring to active recording: upon detecting a specific speed threshold, the Sensor Handler wakes the Trip Controller, which instantiates a new session in Local Storage and issues a notification to the user.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv9.png} 
+    \caption{Automatic Activity Recognition}
+\end{figure}
+\clearpage
+
+\subsubsection{History Retrieval and Visualization}
+This view describes the data retrieval process for viewing past activities, showcasing the hybrid data loading strategy. The sequence is initiated when the user accesses the history screen. The diagram illustrates parallel retrieval: the View Manager immediately renders cached summaries from Local Storage for instant feedback, while the Sync Manager simultaneously queries the API Gateway for any updates. The flow concludes with the Sync Manager updating the local database with data received from the server, ensuring consistency between the two sources.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{DD/img/section2/rv/rv11.png} 
+    \caption{History Retrieval and Visualization}
+\end{figure}
+\clearpage
