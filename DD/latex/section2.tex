@@ -455,3 +455,97 @@ The Backend Server exposes a public REST API via the Gateway and uses internal C
         \end{itemize}
     \end{minipage}
 \end{itemize}
+\clearpage
+
+\subsection{Selected architectural styles and patterns}
+This section details the architectural patterns and styles adopted for the "Best Bike Paths" (BBP) system. The choices described below are driven by the specific requirements defined in the RASD, particularly the need for real-time sensor processing, offline resilience, and data consistency across a distributed environment.
+
+\subsubsection{Client-Server: Thick Client and Fat Server}
+Unlike traditional web-based systems where the client is "thin" (relying almost entirely on the server), BBP adopts a \textbf{Thick Client} architecture for the mobile application, paired with a \textbf{Fat Server} for the backend.
+
+\begin{itemize}
+    \item \textbf{Thick Client (Mobile App):} The mobile application is responsible for significant computation and state management. It locally processes high-frequency sensor data to detect anomalies and manages a local database.
+    \begin{itemize}
+        \item \textit{Justification - Real-time Processing:} As per requirement [PR3], the system must process sensor data at 50Hz. Sending raw telemetry to the server in real-time is unfeasible due to latency and bandwidth constraints. Local processing ensures immediate anomaly detection.
+        \item \textit{Justification - Offline Resilience:} As per requirement [CON3], the system must function in remote areas. The Thick Client ensures that trip recording and map visualization persist without an active internet connection.
+    \end{itemize}
+    
+    \item \textbf{Fat Server (Backend):} The server remains the central authority for data aggregation, user management, and the generation of the global "Path Score".
+    \begin{itemize}
+        \item \textit{Justification - Data Aggregation:} The server is the only node capable of aggregating reports from thousands of users to update the public inventory and calculate optimal routes (Goal [G9]).
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Layered Architecture}
+The system is structured into three logical layers (Presentation, Application Logic, Data). This pattern is applied across both the Client and the Server, creating a distributed layered architecture.
+
+\begin{itemize}
+    \item \textbf{Separation of Concerns:} Each layer has a specific responsibility. This reduces coupling and allows parallel development of modules.
+    \item \textbf{Maintainability:} Changes to the user interface (Presentation Layer) do not affect the underlying data processing logic (Application Layer) or the database schema (Data Layer).
+    \item \textbf{Security:} The Data Layer on the server (Tier 3) is isolated from direct client access. All data requests must pass through the Application Layer (Tier 2), ensuring authentication and validation protocols are enforced before data is touched.
+\end{itemize}
+
+\subsubsection{RESTful Architecture}
+Communication between the Mobile Client (Tier 1) and the Backend Server (Tier 2) relies on \textbf{REST} (Representational State Transfer) principles over HTTPS.
+
+\begin{itemize}
+    \item \textbf{Statelessness:} The server does not store the client's session state between requests (excluding the authentication token validation). This allows the server to scale horizontally easily, as any server instance can handle any request from any user.
+    \item \textbf{Interoperability:} Data is exchanged in \textbf{JSON} format. This is lightweight (saving user data plans) and easily parsable by almost any device.
+    \item \textbf{Standardization:} Using standard HTTP methods (GET, POST) simplifies the integration of third-party tools and future expansion of the API.
+\end{itemize}
+
+\subsubsection{Model-View-Controller (MVC)}
+The \textbf{MVC} pattern is strictly adopted within the \textbf{Mobile Application (Presentation Layer)} to manage the complexity of user interactions and sensor feedback.
+
+\begin{itemize}
+    \item \textbf{Model:} Represents the data logic, such as the \texttt{Trip} object, \texttt{SensorAnomaly}, and \texttt{UserStats}. It manages the state of the application.
+    \item \textbf{View:} The UI components observed by the user updates dynamically based on changes in the Model.
+    \item \textbf{Controller:} Components like the \texttt{TripController} and \texttt{ViewManager} act as intermediaries. They interpret user inputs or sensor events and update the Model accordingly.
+    \begin{itemize}
+        \item \textit{Justification:} This pattern is essential for the mobile app to decouple the UI from the background sensor logic, ensuring the interface remains responsive even during heavy data processing.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Offline-First Pattern}
+Given the specific domain of cycling, which often takes place in areas with poor network coverage, the architecture implements an \textbf{Offline-First} design pattern.
+
+\begin{itemize}
+    \item \textbf{Local-First Write:} All data generated by the user (Trips, Reports) is primarily written to the \textbf{Local Storage} (SQLite). Synchronization with the central server is treated as a background secondary process managed by the \texttt{SyncManager}.
+    \item \textbf{Optimistic UI:} When a user performs an action, the UI updates immediately as if the server request succeeded, providing a snappy user experience. The actual synchronization happens asynchronously.
+    \item \textbf{Conflict Resolution:} The \texttt{SyncManager} handles data reconciliation when connectivity is restored, ensuring no trip data is lost due to network failures [SSA3].
+\end{itemize}
+\clearpage
+
+\subsection{Other design decisions}
+This section outlines additional design choices that address specific non-functional requirements and algorithmic challenges of the BBP system, ensuring scalability, accuracy in data collection, and user privacy.
+
+\subsubsection{Scale-Out Architecture}
+To meet the performance requirement [PR5] regarding concurrent users, the backend architecture is designed to support \textbf{Scale-Out} (horizontal scaling).
+\begin{itemize}
+    \item \textbf{Strategy:} Instead of relying on a single powerful server (Scale-Up), the Application Tier (Tier 2) is composed of multiple stateless server instances running behind a Load Balancer.
+    \item \textbf{Benefit:} This approach allows the system to handle spikes in traffic by dynamically adding more server instances without modifying the software architecture. The stateless nature of the RESTful API facilitates this, as any instance can process any request.
+\end{itemize}
+
+\subsubsection{Automatic Activity Detection Algorithm}
+To fulfill goal [G10], the mobile application implements a specialized algorithm to detect cycling activity without user intervention, minimizing battery drain [PR7].
+\begin{itemize}
+    \item \textbf{Two-Stage Detection:}
+    \begin{enumerate}
+        \item \textbf{Passive Monitoring (Low Power):} The \texttt{SensorHandler} periodically samples the GPS speed and accelerometer data at a low frequency. It checks if the movement pattern matches a "cycling signature".
+        \item \textbf{Active Recording (High Performance):} Once the threshold is exceeded for a sustained period, the system transitions to the \texttt{TripController}, waking up the high-frequency polling (50Hz) to accurately map the route and detect anomalies.
+    \end{enumerate}
+    \item \textbf{Benefit:} This hybrid approach balances the need for automation with the strict constraint on battery consumption [DC6].
+\end{itemize}
+
+\subsubsection{Pothole Detection and Filtering Algorithm}
+To ensure the accuracy of the shared inventory [G6], the system processes sensor data locally before sending it to the server.
+\begin{itemize}
+    \item \textbf{Local Filtering:} The \texttt{SensorHandler} applies a Z-axis variance filter to the accelerometer data. Vertical shocks are cross-referenced with gyroscope data to distinguish actual road defects (potholes) from user actions.
+    \item \textbf{User Verification Loop:} Detected anomalies are flagged as "Pending" and stored locally. They are not uploaded until the user explicitly confirms them via the UI ([UC5]), drastically reducing false positives in the dataset.
+\end{itemize}
+
+\subsubsection{Privacy-Preserving Publication Mechanism}
+To comply with GDPR [CON1] and protect user privacy [G11] while enabling crowdsourcing, a strict data transformation process is enforced.
+\begin{itemize}
+    \item \textbf{Default Privacy:} All trips are stored as "Private" by default in the Central DBMS.
+\end{itemize}
