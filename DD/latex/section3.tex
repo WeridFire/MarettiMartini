@@ -9,3 +9,12 @@ The goal of this section is to show the design of the main screens of the Best B
     \end{figure}
 \end{center}
 These mobile application screens represent the graphical flow during the Onboarding and Sign-up procedure. Once the unregistered user inputs their personal details (username, email, and password) and presses the register button, the application validates the data. Upon successful validation, the system sends a verification link to the user's email address. After the user confirms their identity by clicking the link, the account is activated. Finally, the user enters their credentials to log in and is redirected to the personal dashboard, granting access to the full features of the BBP system.
+
+\subsection{Trip Recording \& Statistics}
+\begin{center}
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{DD/img/section3/TripRecording.png}
+        \caption{Trip Recording and Statistics Screens}
+    \end{figure}
+\end{center}
+These mobile application screens represent the graphical flow during the Trip Recording procedure. The user initiates the activity via the main dashboard. During the ride, the interface switches to 'Active Mode', displaying real-time telemetry (speed, duration, and distance) with minimal distractions to ensure safety. Once the user stops the recording, the system processes the GPS data and retrieves context-specific weather conditions from the external service. Finally, a summary screen presents the route map, performance statistics, and meteorological data, allowing the user to save the trip to their personal history.
