@@ -258,201 +258,155 @@ This view describes the data retrieval process for viewing past activities, show
 \clearpage
 
 \subsection{Component Interfaces}
-This section details the interfaces exposed by the system components. Following the architecture defined in Section 2.2, we distinguish between \textbf{External Interfaces} (boundaries between the Mobile App and the Backend) and \textbf{Internal Controllers} (interfaces used for inter-component communication within the Mobile Client and the Backend Server).
+This section details the interfaces exposed by the logical components of the Best Bike Paths (BBP) system. Each interface definition includes the specific method signatures and the objects returned, defining the strict contract between the modules.
 
-\subsubsection{Mobile Client Interfaces (Tier 1)}
-As the Mobile Application acts as a \textbf{Thick Client}, it contains significant business logic. The following interfaces manage the local orchestration of sensors, storage, and synchronization.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{DD/img/section2/ifs/if1.png}
-    \caption{Mobile Client Interfaces}
-\end{figure}
+\subsubsection{Mobile Application Interfaces (Client-Side)}
+These interfaces manage the local business logic on the Android/iOS device.
 
 \begin{itemize}
     \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{ViewManagerInterface}}
-        \begin{itemize}
-            \item \textbf{Description:} The boundary interface between the User Interface (UI) views and the application logic. It allows the logic layers to push updates to the user.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{updateDashboard(stats: UserStats)}: Updates total distance and average speed on the home screen.
-                \item \texttt{renderMapRoute(route: GeoJSON)}: Draws the calculated path on the map view.
-                \item \texttt{showAnomalyNotification(anomaly: AnomalyData)}: Triggers the push notification for detected obstacles.
-                \item \texttt{displayVerificationDialog(anomalyId: UUID)}: Opens the popup for the user to confirm/reject a pothole.
-            \end{itemize}
-        \end{itemize}
+        \textbf{ITripControl}: Exposed by the \textit{Trip Controller}. Used by the \textit{View Manager} to handle user inputs for session management.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{startRecording(mode: ActivityMode): SessionID} \\
+            \texttt{pauseRecording(sessionId: SessionID): boolean} \\
+            \texttt{stopRecording(sessionId: SessionID): TripSummary}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{SessionID}: A unique UUID for the current local session. \\
+            \texttt{TripSummary}: An object containing preliminary stats (duration, distance, avg speed) for immediate UI display.
+        \end{description}
     \end{minipage}
+    \vspace{0.3cm}
 
     \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{TripController}}
-        \begin{itemize}
-            \item \textbf{Description:} Internal interface exposed by the \textbf{Trip Manager} component. It acts as the state machine for the cycling session.
-            \item \textbf{Used By:} \texttt{ViewManager} (Manual Start), \texttt{SensorHandler} (Auto-Start).
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{startSession(mode: TrackingMode)}: Initializes a new trip (Manual or Automated).
-                \item \texttt{pauseSession()}: Temporarily halts recording.
-                \item \texttt{stopSession()}: Finalizes the trip and triggers the local save.
-                \item \texttt{discardSession()}: Deletes current temporary data without saving.
-            \end{itemize}
-        \end{itemize}
+        \textbf{ISensorData}: Exposed by the \textit{Sensor Handler}. Used by the \textit{Trip Controller} to ingest raw hardware data.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{subscribe(sensors: List<SensorType>, freq: int): void} \\
+            \texttt{getLatestReading(): SensorFrame}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{SensorFrame}: A normalized data structure containing \texttt{\{timestamp, lat, lon, accel\_x, accel\_y, gyro\_z\}} regardless of the OS (Android/iOS).
+        \end{description}
     \end{minipage}
+    \vspace{0.3cm}
 
     \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{SensorController}}
-        \begin{itemize}
-            \item \textbf{Description:} Internal interface exposed by the \textbf{Sensor Handler}. It abstracts the low-level hardware access (GPS, Accelerometer, Gyroscope).
-            \item \textbf{Used By:} \texttt{TripController}.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{startMonitoring(frequency: int)}: Activates sensors at high frequency (50Hz) for anomaly detection.
-                \item \texttt{getInstantaneousSpeed(): double}: Returns current speed for Automatic Activity Recognition.
-                \item \texttt{detectVerticalShock(threshold: double): Event}: Returns an event if accelerometer Z-axis variance exceeds the threshold (pothole detection).
-            \end{itemize}
-        \end{itemize}
+        \textbf{ILocData}: Exposed by the \textit{Local Storage Manager}. Used for persistence and offline buffering.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{saveTrip(trip: TripData): boolean} \\
+            \texttt{getPendingUploads(): List<TripData>} \\
+            \texttt{updateAnomalyStatus(id: int, status: VerificationStatus): void}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{TripData}: A serialized object containing the full list of waypoints and sensor readings ready for upload.
+        \end{description}
     \end{minipage}
+    \vspace{0.3cm}
 
     \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{LocalStorageController}}
-        \begin{itemize}
-            \item \textbf{Description:} Internal interface exposed by the \textbf{Local Storage Manager}. It manages persistence on the device (SQLite/Realm).
-            \item \textbf{Used By:} \texttt{TripController}, \texttt{SyncManager}.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{saveTripRecord(trip: TripData)}: Buffers the trip data locally when offline.
-                \item \texttt{getPendingUploads(): List<Trip>}: Retrieves trips that have not yet been synced to the server.
-                \item \texttt{updateSyncStatus(tripId: UUID, status: SyncStatus)}: Marks a record as "Uploaded" after successful sync.
-                \item \texttt{cacheMapArea(region: Region)}: Stores map tiles for offline usage.
-            \end{itemize}
-        \end{itemize}
-    \end{minipage}
-
-    \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{SyncController}}
-        \begin{itemize}
-            \item \textbf{Description:} Internal interface exposed by the \textbf{Sync Manager}. It handles the data handover logic.
-            \item \textbf{Used By:} \texttt{NetworkManager}.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{checkConnectivity(): boolean}: Verifies if the backend is reachable.
-                \item \texttt{triggerBatchUpload()}: Initiates the upload of all pending trips.
-            \end{itemize}
-        \end{itemize}
+        \textbf{INetwork}: Exposed by the \textit{Network Manager}. Abstracts HTTP calls.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{postRequest(endpoint: String, payload: JSON, token: AuthToken): Response} \\
+            \texttt{getRequest(endpoint: String, params: Map<String, String>): Response}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{Response}: A wrapper containing \texttt{HttpCode}, \texttt{ResponseBody}, and \texttt{ErrorMsg} if applicable.
+        \end{description}
     \end{minipage}
 \end{itemize}
+
 \clearpage
+\subsubsection{Backend Server Interfaces (Server-Side)}
+These interfaces manage the core logic on the J2EE Application Server.
 
-\subsubsection{Backend Server Interfaces (Tier 2)}
-The Backend Server exposes a public REST API via the Gateway and uses internal Controllers to manage the complex business logic (Scoring, Anonymization, Aggregation).
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{DD/img/section2/ifs/if2.png}
-    \caption{Backend Server Interfaces}
-\end{figure}
-
-
-\paragraph{External Interfaces (REST API)}
 \begin{itemize}
     \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{BBPInterface}} (API Gateway)
-        \begin{itemize}
-            \item \textbf{Description:} The main entry point for the Mobile Client. It routes incoming HTTP requests to the appropriate internal controller.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{POST /auth/login}: Handles credential verification.
-                \item \texttt{POST /trips/upload}: Receives raw trip data (GPS + Anomalies) from the client.
-                \item \texttt{GET /routes/plan}: Accepts origin/destination and returns ranked routes.
-                \item \texttt{POST /anomalies/verify}: Accepts user confirmation of detected obstacles.
-            \end{itemize}
-        \end{itemize}
+        \textbf{BBP-API}: The RESTful interface exposed by the \textit{API Gateway} to external clients.
+        \begin{description}
+            \item[\textit{Endpoints (Signatures):}] \hfill \\
+            \texttt{POST /api/v1/login (body: Credentials)} \\
+            \texttt{POST /api/v1/trips/upload (body: TripBatch)} \\
+            \texttt{GET /api/v1/routes?start=\{x,y\}\&end=\{x,y\}}
+            \item[\textit{Returned Objects:}] \hfill \\
+            Returns standard JSON envelopes containing \texttt{AuthToken}, \texttt{RoutePath}, or \texttt{OperationStatus}.
+        \end{description}
+    \end{minipage}
+    \vspace{0.3cm}
+
+    \item \begin{minipage}[t]{\linewidth}
+        \textbf{IAuth}: Exposed by the \textit{User Manager} for identity verification.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{authenticate(email: String, passHash: String): AuthToken} \\
+            \texttt{validateToken(token: String): UserID}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{AuthToken}: A JWT (JSON Web Token) containing user claims and expiration.
+        \end{description}
+    \end{minipage}
+    \vspace{0.3cm}
+
+    \item \begin{minipage}[t]{\linewidth}
+        \textbf{IDataProcessing}: Exposed by the \textit{Trip Processing Manager}.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{processBatch(rawTrip: TripData): ProcessedTrip} \\
+            \texttt{detectAnomalies(sensorLog: List<SensorFrame>): List<DetectedAnomaly>}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{ProcessedTrip}: A trip object enriched with weather data and cleaned of GPS noise. \\
+            \texttt{DetectedAnomaly}: A candidate anomaly (e.g., Pothole) with a confidence score and location.
+        \end{description}
+    \end{minipage}
+    \vspace{0.3cm}
+
+    \item \begin{minipage}[t]{\linewidth}
+        \textbf{IInventory}: Exposed by the \textit{Path Inventory Manager}.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{getSegmentsInRegion(boundingBox: Region): List<PathSegment>} \\
+            \texttt{confirmAnomaly(anomalyId: int, userVote: boolean): AnomalyStatus}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{PathSegment}: Represents a road arc with associated quality scores (SafetyScore, SurfaceQuality).
+        \end{description}
+    \end{minipage}
+    \vspace{0.3cm}
+
+    \item \begin{minipage}[t]{\linewidth}
+        \textbf{IRouting}: Exposed by the \textit{Routing Engine}.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{calculateRoute(req: RouteRequest): RouteResult}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{RouteRequest}: Input containing Origin, Destination, and preferences (e.g., "Safety First"). \\
+            \texttt{RouteResult}: An ordered list of coordinates and navigation instructions.
+        \end{description}
     \end{minipage}
 \end{itemize}
-\clearpage
 
-\paragraph{Internal Controllers (Server Logic)}
+\clearpage
+\subsubsection{External System Interfaces}
+Adapters for third-party API integration.
+
 \begin{itemize}
     \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{SecurityController}}
-        \begin{itemize}
-            \item \textbf{Description:} Interface exposed by the \textbf{User Account Manager}. It handles authentication and token management.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{validateToken(token: String): boolean}: Checks the validity of the JWT for every incoming request.
-                \item \texttt{registerUser(userData: UserDTO): UserID}: Creates a new user record in the DBMS.
-            \end{itemize}
-        \end{itemize}
+        \textbf{IWeatherProvider}: Adapter for OpenWeatherMap (or similar).
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{getHistory(lat: double, lon: double, time: long): WeatherCondition}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{WeatherCondition}: Contains \texttt{\{temperature, precipitation, wind\_speed\}}.
+        \end{description}
     \end{minipage}
+    \vspace{0.3cm}
 
     \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{TripProcessingController}}
-        \begin{itemize}
-            \item \textbf{Description:} Interface exposed by the \textbf{Trip Processing Manager}. It handles post-processing of raw data.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{processRawData(gpsSeries: List<Point>)}: Cleans GPS noise and calculates average speed/distance.
-                \item \texttt{enrichTripRecord(tripId: UUID, weatherData: WeatherDTO)}: Merges trip statistics with meteorological data.
-                \item \texttt{getHistory(userId: UUID): List<TripSummary>}: Retrieves past trips for the history view.
-            \end{itemize}
-        \end{itemize}
-    \end{minipage}
-
-    \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{InventoryController}}
-        \begin{itemize}
-            \item \textbf{Description:} Interface exposed by the \textbf{Path Inventory Manager}. It manages the shared knowledge base.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{publishPathData(tripId: UUID)}: Changes visibility from Private to Public.
-                \item \texttt{anonymizeData(tripData: Trip)}: Strips user IDs and truncates start/end coordinates before publication.
-                \item \texttt{updateAnomalyStatus(anomalyId: UUID, status: Verified|Rejected)}: Updates the reliability of a reported obstacle.
-            \end{itemize}
-        \end{itemize}
-    \end{minipage}
-
-    \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{RoutingController}}
-        \begin{itemize}
-            \item \textbf{Description:} Interface exposed by the \textbf{Routing Engine}. It executes the pathfinding algorithms.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{calculatePathScore(segment: RoadSegment): double}: Computes the score based on surface quality and obstacles.
-                \item \texttt{findBestRoute(origin: Coords, dest: Coords): List<Route>}: Returns the optimal path prioritizing the Path Score.
-            \end{itemize}
-        \end{itemize}
-    \end{minipage}
-
-    \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{ExternalServiceController}}
-        \begin{itemize}
-            \item \textbf{Description:} Interface exposed by the \textbf{External Service Connectors}. It acts as an adapter/facade for third-party APIs.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{fetchWeather(lat: double, lon: double, time: Timestamp)}: Contacts the External Weather Service.
-                \item \texttt{fetchTopology(region: Box)}: Retrieves road network data from the Map Service Provider.
-            \end{itemize}
-        \end{itemize}
-    \end{minipage}
-\end{itemize}
-\clearpage
-
-\subsubsection{Data Layer Interfaces (Tier 3)}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{DD/img/section2/ifs/if3.png}
-    \caption{Data Layer Interfaces}
-\end{figure}
-\begin{itemize}
-    \item \begin{minipage}[t]{\linewidth}
-        \textbf{\texttt{DBMSInterface}}
-        \begin{itemize}
-            \item \textbf{Description:} The standard interface used by the Backend Controllers to interact with the Central DBMS.
-            \item \textbf{Methods:}
-            \begin{itemize}
-                \item \texttt{executeQuery()}: Executes read-only queries.
-                \item \texttt{beginTransaction()}: Starts a new transaction for data integrity.
-                \item \texttt{commitTransaction()}: Commits changes to the database.
-            \end{itemize}
-        \end{itemize}
+        \textbf{IMapProvider}: Adapter for Map Services.
+        \begin{description}
+            \item[\textit{Methods:}] \hfill \\
+            \texttt{getMapTiles(zoom: int, x: int, y: int): ImageBlob} \\
+            \texttt{snapToRoad(points: List<Coords>): List<Coords>}
+            \item[\textit{Returned Objects:}] \hfill \\
+            \texttt{ImageBlob}: Binary data for map visualization.
+        \end{description}
     \end{minipage}
 \end{itemize}
 \clearpage
