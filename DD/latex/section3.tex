@@ -18,3 +18,48 @@ These mobile application screens represent the graphical flow during the Onboard
     \end{figure}
 \end{center}
 These mobile application screens represent the graphical flow during the Trip Recording procedure. The user initiates the activity via the main dashboard. During the ride, the interface switches to 'Active Mode', displaying real-time telemetry (speed, duration, and distance) with minimal distractions to ensure safety. Once the user stops the recording, the system processes the GPS data and retrieves context-specific weather conditions from the external service. Finally, a summary screen presents the route map, performance statistics, and meteorological data, allowing the user to save the trip to their personal history.
+\clearpage
+
+
+\subsection{Route Planning \& Navigation}
+\begin{center}
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{DD/img/section3/RoutePlanning.png}
+        \caption{Route Planning and Navigation Screens}
+    \end{figure}
+\end{center}
+These screens illustrate the Route Planning flow, accessible to both registered and unregistered users. The interface centers on the map visualization. The user inputs an origin and destination, and the system calculates available paths. Crucially, the system highlights the recommended route based on the "Path Score" algorithm, displaying quality metrics (e.g., Score 4.8/5) alongside distance and estimated time. Once a route is selected, the application enters a simplified Navigation Mode designed for high legibility while cycling.
+\clearpage
+
+\subsection{Automated Data Verification}
+\begin{center}
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{DD/img/section3/DataVerification.png}
+        \caption{Automated Data Verification Screens}
+    \end{figure}
+\end{center}
+These screens depict the verification workflow for automatically detected data, a crucial step to ensure the accuracy of the information available to the community. Once a trip is completed, the system notifies the user if the device sensors (accelerometer/gyroscope) detected potential obstacles during the ride. The user can access a detailed map view where these anomalies are flagged with specific markers. By selecting a marker, the user validates the data: they can "Confirm" actual obstacles (e.g., potholes) to make them publishable, or "Reject" false positives (e.g., jumping a curb) to discard the erroneous data.
+\clearpage
+
+\subsection{Manual Path Reporting}
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{DD/img/section3/ManualReporting.png}
+        \caption{Manual Path Reporting Screens}
+    \end{figure}
+\end{center}
+These screens represent the Manual Reporting workflow, enabling users to actively contribute to the shared map. Starting from the "Ride Completed" screen, the user selects the "Report" function and identifies a specific path point on the map. A reporting form allows the user to classify the path status (e.g., "Requires Maintenance") and specify obstacle types (e.g., "Flooding" or "Roots") if present. Before submission, the user can explicitly toggle the "Make Public" option, authorizing the system to publish this information to the collaborative inventory. The user can repeat this process as many times as necessary to flag every obstacle found along the route.
+\clearpage
+
+
+\subsection{History \& Publishing}
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{DD/img/section3/HistoryPublishing.png}
+        \caption{History and Publishing Screens}
+    \end{figure}
+\end{center}
+These screens illustrate the management of the user's personal archive and the publication workflow. The \textit{History List} allows registered users to browse past activities. By selecting a specific trip, users can access detailed performance metrics, including speed graphs and weather conditions. Crucially, this interface enables the collaborative mechanism, allowing users to publish their path data to the shared inventory. The system presents a mandatory \textit{Privacy Warning} to inform the user that, while path conditions will be shared to improve the community map, all personal data will be strictly anonymized before publication.
+\clearpage
