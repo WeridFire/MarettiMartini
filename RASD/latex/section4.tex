@@ -190,15 +190,6 @@ fact AllAnomaliesConnected {
     all a: SensorAnomaly | one t: Trip | a in t.detectedAnomalies
 }
 
--- F16: All segments connected
-fact AllSegmentsConnected {
-    all s: PathSegment | {
-        (some t: Trip | s in t.path)
-        or
-        (some r: PathReport | s = r.segment)
-    }
-}
-
 
 -- ASSERTIONS - VERIFY CORE REQUIREMENTS
 
@@ -254,6 +245,8 @@ assert PendingAnomaliesNoReports {
         a.verification = Pending implies no a.resultingReport
 }
 
+-- Checks
+
 check NoRejectedReports for 5
 check AutomatedReportsAreVerified for 5
 check PrivacyGuarantee for 5
@@ -262,8 +255,6 @@ check AllReportsHaveAuthor for 5
 check AnomaliesOnTraveledPaths for 5
 check NoOrphanTrips for 5
 check PendingAnomaliesNoReports for 5
-
-
 
 
 -- PREDICATES
@@ -331,7 +322,6 @@ pred Scenario_PrivateTripWithPendingAnomalies {
 
 
 
-
 -- S5: User publishes previously private data
 pred Scenario_PublishPrivateData {
     some u: RegisteredUser, t: Trip, a: SensorAnomaly, r: PathReport, s: PathSegment | {
@@ -371,6 +361,11 @@ pred Scenario_MultipleContributors {
 
 
 -- WORLDS
+
+--  Used to not show orphans PathSegments in worlds
+pred CleanWorld {
+    all s: PathSegment | (some t: Trip | s in t.path) or (some r: PathReport | r.segment = s)
+}
 
 -- World showing the confirmation workflow
 pred World_ConfirmationWorkflow {
@@ -458,41 +453,49 @@ pred World5_PrivateVsPublic {
         }
     }
 }
+
+-- Execution Commands
+run World1_Clean { World1 and CleanWorld } for 5
+run World2_Clean { World2 and CleanWorld } for 5
+run World3_Clean { World3 and CleanWorld } for 5
+run World4_Clean { World4_MixedReports and CleanWorld } for 5
+run World5_Clean { World5_PrivateVsPublic and CleanWorld } for 5
+run Workflow_Clean { World_ConfirmationWorkflow and CleanWorld } for 5
 \end{lstlisting}
 
 \subsubsection{Worlds}
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[width=\textwidth]{RASD/img/section4/world1.png}
-        \caption{World 1}
-    \end{center}
-\end{figure}
+
+The following instances (Worlds) have been generated to visually validate the consistency of the model against specific functional scenarios. Each world represents a snapshot of the system state satisfying a distinct set of constraints.
+
+\paragraph{World 1: Initial System State} This instance represents the baseline state of the BBP system. It depicts the existence of registered users prior to the creation of any trips, anomalies, or reports. This world confirms that the static structural constraints of the domain model are consistent even in the absence of dynamic activity.
+
+\begin{figure}[H] \begin{center} \includegraphics[width=\textwidth]{RASD/img/section4/world1.png} \caption{World 1: Initial State with registered users but no activity.} \end{center} \end{figure}
+
 \newpage
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[width=\textwidth]{RASD/img/section4/world2.png}
-        \caption{World 2}
-    \end{center}
-\end{figure}
+
+\paragraph{World 2: Manual Reporting Workflow} This scenario illustrates the system's behavior when relying exclusively on user inputs. It depicts a state containing multiple trips and path reports, where all reports are explicitly marked as manual (isAutomated = False). This world validates that the system can successfully manage crowdsourced data without requiring the intervention of the automated sensor subsystem.
+
+\begin{figure}[H] \begin{center} \includegraphics[width=\textwidth]{RASD/img/section4/world2.png} \caption{World 2: Scenario focusing on Manual Reporting only.} \end{center} \end{figure}
+
 \newpage
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[width=\textwidth]{RASD/img/section4/world3.png}
-        \caption{World 3}
-    \end{center}
-\end{figure}
+
+\paragraph{World 3: Automated Detection and Verification} This instance focuses on the lifecycle of automatically detected data. It shows the generation of SensorAnomaly entities linked to a trip and verifies the transition logic where a user confirms an anomaly, resulting in the creation of a valid PathReport. This world is essential to verify that the automated collection and user verification loop functions correctly.
+
+\begin{figure}[H] \begin{center} \includegraphics[width=\textwidth]{RASD/img/section4/world3.png} \caption{World 3: Scenario showing Automated Detection and Verification.} \end{center} \end{figure}
+
 \newpage
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[width=\textwidth]{RASD/img/section4/world4.png}
-        \caption{World 4}
-    \end{center}
-\end{figure}
+
+\paragraph{World 4: Aggregation of Heterogeneous Data} This world demonstrates the system's capability to integrate different data sources simultaneously. It presents a complex state where manual reports coexist with automated reports derived from confirmed sensor anomalies. This validation ensures that the PathReport entity correctly abstracts the data origin (manual vs. automated) while maintaining consistency in the public inventory.
+
+\begin{figure}[H] \begin{center} \includegraphics[width=\textwidth]{RASD/img/section4/world4.png} \caption{World 4: Coexistence of Manual and Automated reports.} \end{center} \end{figure}
+
 \newpage
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[width=\textwidth]{RASD/img/section4/world5.png}
-        \caption{World 5}
-    \end{center}
-\end{figure}
+
+\paragraph{World 5: Privacy Constraints} This scenario validates the "Privacy by Default" requirement and the explicit publication mechanism. It contrasts two distinct trips owned by the same user: a \textit{Private} trip, where detected anomalies remain pending and isolated, and a \textit{Public} trip, where confirmed data is visible to the community. This world proves that the model correctly enforces visibility boundaries, preventing the accidental leakage of private user data.
+
+\begin{figure}[H] \begin{center} \includegraphics[width=\textwidth]{RASD/img/section4/world5.png} \caption{World 5: Privacy mechanisms and data publication.} \end{center} \end{figure}
 \newpage
+
+\paragraph{Anomaly Verification Workflow} This specific instance validates the lifecycle of sensor data, showcasing the three possible states of an anomaly within a single trip. It depicts a scenario where multiple anomalies coexist: one confirmed (generating a report), one rejected (discarded), and one pending (awaiting action). This visualizes the correctness of the state machine logic formalized in Fact F4, ensuring that only verified data impacts the public inventory.
+
+\begin{figure}[H] \begin{center} \includegraphics[width=\textwidth]{RASD/img/section4/workflow.png} \caption{Verification Workflow: Handling Pending, Confirmed, and Rejected anomalies.} \end{center} \end{figure}
