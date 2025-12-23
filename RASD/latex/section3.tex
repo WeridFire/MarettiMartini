@@ -637,7 +637,7 @@ The Best Bike Paths (BBP) system must ensure fluid interaction and accurate trac
 
 \subsubsection{Standards compliance}
 \begin{itemize}
-    \item \textbf{[DC1] GDPR Compliance:} In accordance with [CON1], all personal data (trip history, precise geolocation) must be stored in compliance with the General Data Protection Regulation (GDPR). The system must allow users to export or delete their data upon request.
+    \item \textbf{[DC1] GDPR Compliance:} In accordance with \textbf{[CON1]}, all personal data (trip history, precise geolocation) must be stored in compliance with the General Data Protection Regulation (GDPR). The system must allow users to export or delete their data upon request.
     \item \textbf{[DC2] Map Standards:} The system must utilize standard geospatial data formats (e.g., GeoJSON) for storing and exchanging path and anomaly data.
     \item \textbf{[DC3] Communication Security:} All data transmission between the mobile client and the backend server must be encrypted.
 \end{itemize}
@@ -652,7 +652,7 @@ The Best Bike Paths (BBP) system must ensure fluid interaction and accurate trac
 
 \subsubsection{Any other constraint}
 \begin{itemize}
-    \item \textbf{[DC8] OS Compatibility:} The mobile application must be compatible with \textbf{Android 10.0+} and \textbf{iOS 14.0+} to ensure access to modern background processing APIs required for Requirement R7[cite: 311].
+    \item \textbf{[DC8] OS Compatibility:} The mobile application must be compatible with \textbf{Android 10.0+} and \textbf{iOS 14.0+} to ensure access to modern background processing APIs required for Requirement R7.
     \item \textbf{[DC9] Network Dependency for Enrichment:} The weather enrichment feature (Scenario 2) and route planning (Scenario 7) are strictly dependent on an active internet connection. These features are disabled in offline mode.
 \end{itemize}
 \newpage
@@ -673,7 +673,7 @@ The Best Bike Paths (BBP) system must ensure fluid interaction and accurate trac
 \subsubsection{Security}
 \begin{itemize}
     \item \textbf{[SSA5] Data Encryption:} All sensitive data transmission between the mobile client and the backend server (authentication, geolocation history) must be encrypted via HTTPS.
-    \item \textbf{[SSA6] Privacy by Default:} All user trips are ``Private'' by default[cite: 325]. The system must ensure that no personal trip data is exposed to the public map unless the user explicitly executes the ``Publish Information'' use case \textbf{[UC7]}.
+    \item \textbf{[SSA6] Privacy by Default:} All user trips are ``Private'' by default. The system must ensure that no personal trip data is exposed to the public map unless the user explicitly executes the ``Publish Information'' use case \textbf{[UC7]}.
     \item \textbf{[SSA7] Authentication:} Access to personal history and reporting features requires secure login (Token-based authentication, e.g., \textbf{JWT}) to prevent session hijacking.
 \end{itemize}
 
@@ -685,6 +685,6 @@ The Best Bike Paths (BBP) system must ensure fluid interaction and accurate trac
 
 \subsubsection{Portability}
 \begin{itemize}
-    \item \textbf{[SSA10] Cross-Platform Consistency:} The mobile application must provide feature parity between the \textbf{Android} and \textbf{iOS} versions, ensuring that the sensor data collection behaves consistently across different operating systems[cite: 333].
+    \item \textbf{[SSA10] Cross-Platform Consistency:} The mobile application must provide feature parity between the \textbf{Android} and \textbf{iOS} versions, ensuring that the sensor data collection behaves consistently across different operating systems.
     \item \textbf{[SSA11] Backend Deployment:} The server-side components should be containerized (e.g., using Docker) to allow deployment on any standard cloud infrastructure (AWS, Azure, or on-premise servers) without environment-specific configurations.
 \end{itemize}
