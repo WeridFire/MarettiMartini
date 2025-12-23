@@ -83,6 +83,54 @@
 \end{table}
 \clearpage
 
+\subsection{State Diagrams}
+
+For the BBP system, two key entities exhibit complex state-dependent behavior that requires formal modeling: the \textbf{Trip} (representing a cycling session) and the \textbf{SensorAnomaly} (representing a potential road defect detected automatically).
+
+\paragraph{1. Trip Lifecycle}
+The \texttt{Trip} entity is the core data unit of the application. Its lifecycle manages the transition from active recording to data processing, storage, and eventual publication.
+
+\textbf{Description of States:}
+\begin{itemize}
+    \item \textbf{Idle:} The initial state where the system is ready but not recording.
+    \item \textbf{Recording:} The user is actively cycling. This state can be entered manually or automatically via activity detection. In this state, the system continuously tracks GPS and sensor data.
+    \item \textbf{Processing:} Once the recording stops (manually or via timeout), the system calculates statistics (speed, distance) and attempts to fetch weather data.
+    \item \textbf{Private (Stored):} The trip is saved in the user's history but is visible only to them.
+    \item \textbf{Public (Published):} The user has explicitly chosen to share the trip data, updating the community path inventory.
+\end{itemize}
+
+\textbf{Diagram Logic:}
+The transition from \textit{Idle} to \textit{Recording} is triggered by \texttt{startRecording()} (Manual) or when \texttt{speed > threshold} (Automated). The transition to \textit{Processing} occurs upon \texttt{stopRecording()} or when movement ceases for a defined time (timeout). Finally, the \texttt{makePublishable()} event transitions the trip from \textit{Private} to \textit{Public}, triggering the anonymization process.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{RASD/img/section2/state1.png}
+    \caption{State Machine Diagram for the Trip entity}
+    \label{fig:trip_state_diagram}
+\end{figure}
+\clearpage
+
+\paragraph{2. Sensor Anomaly Lifecycle}
+The \texttt{SensorAnomaly} entity represents the crowdsourcing validation workflow. It handles the lifecycle of data detected by hardware sensors to ensure false positives are filtered out before polluting the public database.
+
+\textbf{Description of States:}
+\begin{itemize}
+    \item \textbf{Pending (Verification):} The initial state of an anomaly immediately after it has been detected by the system sensors and logged locally. It awaits user interaction.
+    \item \textbf{Confirmed:} The user has validated the anomaly as a real obstacle (e.g., pothole). This state corresponds to valid knowledge added to the system.
+    \item \textbf{Rejected:} The user has marked the anomaly as a false positive (e.g., jumping a curb). The data is discarded and removed.
+\end{itemize}
+
+\textbf{Diagram Logic:}
+The lifecycle begins when a \texttt{verticalShockDetected} event occurs, which triggers the instantiation of the \texttt{SensorAnomaly} entity directly in the \texttt{Pending} state. The entity remains in \texttt{Pending} until the user interacts via the ``Verify Anomalies'' interface. The \texttt{confirm()} event transitions the state to \texttt{Confirmed}, creating a corresponding \texttt{PathReport}, while \texttt{reject()} transitions it to \texttt{Rejected}, causing the deletion of the temporary data.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{RASD/img/section2/state2.png}
+    \caption{State Machine Diagram for the SensorAnomaly entity}
+    \label{fig:anomaly_state_diagram}
+\end{figure}
+\clearpage
+
 \subsubsection{Class Diagram}
 
 The domain model distinguishes between RegisteredUsers, who track activities and report data, and UnregisteredUsers restricted to navigation. The central Trip entity records cycling history by aggregating GPSCoordinates and calculating TripStatistics, while linking to SensorAnomaly for automated defect detection and Weather Data for environmental context.
