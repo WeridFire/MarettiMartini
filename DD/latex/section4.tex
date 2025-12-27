@@ -1,0 +1,153 @@
+\section{Requirements traceability}
+This section will shown the traceability between requirements and modules described in component diagram.
+
+\begin{itemize}
+    \item \textbf{R1:} The system allows Unregistered Users to sign-up providing personal details.
+          \begin{itemize}
+              \item \textbf{User Account Manager}: in order to manage the registration process.
+          \end{itemize}
+    \item \textbf{R2:} The system allows Registered Users to log-in to access their personal dashboard.
+          \begin{itemize}
+              \item \textbf{User Account Manager}: in order to handle credentials and authentication.
+          \end{itemize}
+    \item \textbf{R3:} The system allows users to manually start and stop the recording of a trip via the application interface.
+          \begin{itemize}
+              \item \textbf{View Manager}: provides the UI buttons for user interaction.
+              \item \textbf{Trip Controller}: manages the internal lifecycle of the recording session.
+          \end{itemize}
+    \item \textbf{R4:} The system continuously tracks the user’s geolocation (GPS coordinates) and time during the recording.
+          \begin{itemize}
+              \item \textbf{Sensor Handler}: interacts with device hardware to poll GPS data.
+          \end{itemize}
+    \item \textbf{R5:} The system processes raw GPS data to calculate performance metrics, specifically total distance and average speed.
+          \begin{itemize}
+              \item \textbf{Trip Processing Manager}: performs server-side post-processing on geospatial data.
+          \end{itemize}
+    \item \textbf{R6:} The system displays a summary of the statistics immediately after a trip is stopped.
+          \begin{itemize}
+              \item \textbf{View Manager}: renders statistical data and summary screens.
+          \end{itemize}
+    \item \textbf{R7:} The system archives the trip statistics in the user’s personal history for future retrieval.
+          \begin{itemize}
+              \item \textbf{Local Storage Manager}: persists trip summaries for offline retrieval.
+              \item \textbf{Central DBMS}: provides long-term persistent storage for user history.
+          \end{itemize}
+    \item \textbf{R8:} The system connects to an external service to retrieve meteorological data based on the trip’s timestamp and location.
+          \begin{itemize}
+              \item \textbf{External Service Connectors}: handles communication with third-party Weather APIs.
+          \end{itemize}
+    \item \textbf{R9:} The system merges the retrieved weather data with the trip statistics.
+          \begin{itemize}
+              \item \textbf{Trip Processing Manager}: enriches trip records with meteorological context.
+          \end{itemize}
+    \item \textbf{R10:} The system allows users to select a specific location or segment on the map.
+          \begin{itemize}
+              \item \textbf{View Manager}: manages map interaction and selection events.
+          \end{itemize}
+    \item \textbf{R11:} The system allows users to input status details (e.g., “Requires Maintenance”) and obstacle types.
+          \begin{itemize}
+              \item \textbf{View Manager}: provides the reporting form UI.
+          \end{itemize}
+    \item \textbf{R12:} The system saves the manual report to the user’s personal records.
+          \begin{itemize}
+              \item \textbf{Local Storage Manager}: handles immediate local persistence of the report.
+          \end{itemize}
+    \item \textbf{R13:} The system monitors device sensors (accelerometer and gyroscope) in the background while the user is cycling.
+          \begin{itemize}
+              \item \textbf{Sensor Handler}: performs high-frequency polling of movement sensors.
+          \end{itemize}
+    \item \textbf{R14:} The system identifies potential road anomalies (e.g., potholes) based on vertical jolts and orientation changes.
+          \begin{itemize}
+              \item \textbf{Sensor Handler}: implements local filtering and detection algorithms.
+          \end{itemize}
+    \item \textbf{R15:} The system logs the anomaly type and location internally for later verification.
+          \begin{itemize}
+              \item \textbf{Local Storage Manager}: buffers candidate anomalies in the local database.
+          \end{itemize}
+    \item \textbf{R16:} The system notifies the user after a trip if potential anomalies were detected.
+          \begin{itemize}
+              \item \textbf{View Manager}: triggers UI alerts and dashboard notifications.
+          \end{itemize}
+    \item \textbf{R17:} The system displays a map or list of detected anomalies for verification.
+          \begin{itemize}
+              \item \textbf{View Manager}: renders verified/unverified markers on the map interface.
+          \end{itemize}
+    \item \textbf{R18:} The system allows the user to explicitly “Confirm” or “Reject” (False Positive) a detected anomaly.
+          \begin{itemize}
+              \item \textbf{View Manager}: captures user validation inputs.
+          \end{itemize}
+    \item \textbf{R19:} The system discards data marked as “Reject” and stores data marked as “Confirm” as valid path information.
+          \begin{itemize}
+              \item \textbf{Path Inventory Manager}: manages the state transitions of reported data.
+          \end{itemize}
+    \item \textbf{R20:} The system allows users to select validated data (manual or automated) from their history.
+          \begin{itemize}
+              \item \textbf{View Manager}: provides the history selection interface.
+          \end{itemize}
+    \item \textbf{R21:} The system allows users to mark specific data as “Publishable”.
+          \begin{itemize}
+              \item \textbf{View Manager}: manages the privacy/publication toggle.
+          \end{itemize}
+    \item \textbf{R22:} The system updates the public inventory with the published path quality data.
+          \begin{itemize}
+              \item \textbf{Path Inventory Manager}: handles the publication flow to the public map.
+          \end{itemize}
+    \item \textbf{R23:} The system allows both Registered and Unregistered users to access the “Explore” section.
+          \begin{itemize}
+              \item \textbf{View Manager}: manages the dashboard navigation to the explore screen.
+          \end{itemize}
+    \item \textbf{R24:} The system allows users to input an Origin and a Destination.
+          \begin{itemize}
+              \item \textbf{View Manager}: handles search input for route planning.
+          \end{itemize}
+    \item \textbf{R25:} The system calculates available routes between the two points.
+          \begin{itemize}
+              \item \textbf{Routing Engine}: performs the core pathfinding logic.
+          \end{itemize}
+    \item \textbf{R26:} The system computes a “Path Score” for each route based on path status and efficiency.
+          \begin{itemize}
+              \item \textbf{Routing Engine}: weights graph edges using inventory data.
+          \end{itemize}
+    \item \textbf{R27:} The system visualizes the routes on the map, highlighting the highest-scored path.
+          \begin{itemize}
+              \item \textbf{View Manager}: renders route polylines and applies score-based styling.
+          \end{itemize}
+    \item \textbf{R28:} The system displays a summary of the route details (distance, estimated time, score).
+          \begin{itemize}
+              \item \textbf{View Manager}: shows summaries to the user.
+          \end{itemize}
+    \item \textbf{R29:} The system periodically monitors GPS speed in the background.
+          \begin{itemize}
+              \item \textbf{Sensor Handler}: implements low-power GPS sampling for activity recognition.
+          \end{itemize}
+    \item \textbf{R30:} The system automatically triggers the “Start Recording” function when the speed exceeds a specific cycling threshold.
+          \begin{itemize}
+              \item \textbf{Trip Controller}: instantiates new recording sessions upon activity detection.
+          \end{itemize}
+    \item \textbf{R31:} The system automatically stops the recording when the user stops moving for a defined timeframe.
+          \begin{itemize}
+              \item \textbf{Trip Controller}: manages the automatic lifecycle termination of sessions.
+          \end{itemize}
+    \item \textbf{R32:} The system stores all recorded trips as “Private” by default.
+          \begin{itemize}
+              \item \textbf{Path Inventory Manager}: enforces default visibility policies.
+          \end{itemize}
+    \item \textbf{R33:} The system anonymizes personal identifiers before transferring data to the public inventory during the publication process.
+          \begin{itemize}
+              \item \textbf{Path Inventory Manager}: executes coordinates truncation and ID removal.
+          \end{itemize}
+\end{itemize}
+
+The design choices detailed in this document explicitly guarantee the following system attributes and qualities, ensuring a robust, secure, and user-centric experience for the Best Bike Paths platform:
+
+\begin{itemize}
+    \item \textbf{Usability and User Experience}: The system is defined by a high degree of usability, achieved through a minimalist and intuitive interface tailored for cyclists in motion. By adopting a "safety-first" design philosophy, the platform provides high-legibility elements and a streamlined navigation flow with a limited number of clear, precise buttons. This minimizes cognitive load and distraction, allowing users to access core functionalities—such as active recording and path reporting—with minimal interaction while cycling.
+    
+    \item \textbf{Security and Data Integrity}: Security is upheld through end-to-end encrypted communication using the HTTPS protocol for all client-server interactions. The system ensures the absolute protection of sensitive data, specifically GPS traces and personal identifiers. Access control is strictly managed via industry-standard JSON Web Tokens (JWT), guaranteeing that only authenticated users can access personal archives or contribute validated data to the public inventory.
+    
+    \item \textbf{Reliability and Availability}: High availability is accomplished through a robust \textit{scale-out} architecture. By replicating the application logic across multiple stateless server clones managed by a Load Balancer, the system eliminates single points of failure. This distributed approach ensures that the platform remains operational even in the event of individual node failures, with a target availability of at least 97\% per tier to provide a consistent service to the community.
+    
+    \item \textbf{Modularity and Maintainability}: The platform is built on a foundation of strict modularity within a layered architecture (Presentation, Application Logic, and Data Tier). By dividing the system into self-contained, decoupled modules, the design facilitates efficient maintenance, debugging, and iterative updates. This allows developers to enhance specific components—such as refining the anomaly detection algorithms—without disrupting the overall system stability, ensuring long-term sustainability.
+    
+    \item \textbf{Cross-Platform Compatibility}: A seamless cross-platform experience is guaranteed through the development of dedicated applications for both iOS and Android environments. By utilizing standardized external service connectors for Map and Weather APIs, the system ensures functional consistency and performance across a wide range of mobile devices and geographic regions.
+\end{itemize}
