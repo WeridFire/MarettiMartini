@@ -159,7 +159,7 @@ Each device has its own Operating System where the software runs. The tiers repr
 \noindent \textbf{Note on Infrastructure Transparency:} \\
 For the sake of clarity and readability in the following sequence diagrams, the \textit{Load Balancer} infrastructure layer (previously detailed in the Deployment View, Section 2.C) has been omitted from the lifelines. It is implied that all incoming HTTP/HTTPS traffic directed to the \texttt{API Gateway} physically passes through the Load Balancer first, which handles SSL termination and traffic distribution among available server instances.
 \subsubsection{User Registration}
-This runtime view illustrates the onboarding process for a new user. The flow initiates in the View Manager, which collects the user's personal details (username, email, password). These are passed to the Network Manager, which handles the secure transmission to the API Gateway on the server. The request is routed to the User Manager, which queries the Central DBMS to verify that the email is not already in use. Upon successful validation, the manager creates a new user record in the database, completing the registration phase.
+This view illustrates the onboarding flow with mandatory email verification. The User Manager validates the provided credentials and creates a record with "PENDING ACTIVATION" status. Instead of granting immediate access, the server returns a 202 Accepted response and triggers an asynchronous verification email. The client displays a confirmation message, as the account remains inactive until the user clicks the unique link sent to their inbox.
 \begin{figure}[H]
     \centering
 \includegraphics[width=\textwidth]{DD/img/section2/rv/rv1.png} 
@@ -185,12 +185,12 @@ This sequence describes the interaction required to generate an optimized cyclin
 \end{figure}
 \clearpage
 
-\subsubsection{User Login}
+\subsubsection{Recording Personal Trip}
 This view depicts the core "Thick Client" logic, emphasizing the system's ability to function without network connectivity. The sequence is orchestrated locally by the Trip Manager, which initializes the session. The diagram focuses on the high-frequency interaction between the Sensor Handler and the hardware sensors, showing how raw telemetry is filtered in real-time. Crucially, it illustrates the exclusive reliance on the Local Storage Manager during the active trip, ensuring that all data is buffered to the internal SQLite database to prevent data loss.
 \begin{figure}[H]
     \centering
 \includegraphics[width=\textwidth]{DD/img/section2/rv/rv4.png} 
-    \caption{User Login}
+    \caption{Recording Personal Trip}
 \end{figure}
 \clearpage
 
@@ -226,7 +226,7 @@ This runtime view addresses the privacy constraints required when sharing person
 \begin{figure}[H]
     \centering
 \includegraphics[width=\textwidth]{DD/img/section2/rv/rv8.png} 
-    \caption{Anomaly Verification and Confirmation}
+    \caption{Data Publication and Anonymization}
 \end{figure}
 \clearpage
 
