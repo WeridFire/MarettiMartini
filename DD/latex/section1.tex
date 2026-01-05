@@ -17,9 +17,68 @@ The BBP system involves interactions between two main user categories: Registere
 
 \subsection{Definitions, Acronyms, Abbreviations}
 
+\subsubsection{Definitions}
+\begin{itemize}
+    \item \textbf{Registered User:} A user with a platform account who can record trips, report anomalies, and access personal history.
+    \item \textbf{Unregistered User:} A user who can only view maps and plan routes without saving data or tracking activities.
+    \item \textbf{Trip:} A recorded cycling session containing geographical waypoints, duration, performance statistics, and weather data.
+    \item \textbf{Automated Mode:} A feature that detects cycling activity and records anomalies via mobile sensors without manual intervention.
+    \item \textbf{Manual Mode:} A data entry method where the user manually inputs status details or obstacles for a specific path segment.
+    \item \textbf{Anomaly:} An irregularity on the road surface, such as a pothole, detected by the smartphone's accelerometer and gyroscope.
+    \item \textbf{Confirmation:} The action of validating a detected anomaly, marking it as a verified obstacle or a false positive.
+    \item \textbf{Path Score:} A numerical value used to rank paths based on maintenance status and travel efficiency.
+    \item \textbf{Thick Client:} A mobile application that hosts significant business logic, such as real-time sensor processing and offline buffering.
+    \item \textbf{Fat Server:} A backend server that handles long-term persistence, identity management, and intensive calculations like path scoring.
+    \item \textbf{Tier:} A physical or logical layer in the system architecture where specific processing or data storage occurs.
+    \item \textbf{RESTful:} An architectural style used for communication between the mobile client and backend server via web services.
+\end{itemize}
+
+\subsubsection{Acronyms}
+\begin{itemize}
+    \item \textbf{API:} Application Programming Interface.
+    \item \textbf{BBP:} Best Bike Paths.
+    \item \textbf{DBMS:} Database Management System.
+    \item \textbf{DD:} Design Document.
+    \item \textbf{GDPR:} General Data Protection Regulation.
+    \item \textbf{GPS:} Global Positioning System.
+    \item \textbf{HTTPS:} Hypertext Transfer Protocol Secure.
+    \item \textbf{JSON:} JavaScript Object Notation, used for RESTful data exchange.
+    \item \textbf{JWT:} JSON Web Token, used for secure session authentication.
+    \item \textbf{MVC:} Model-View-Controller architectural pattern.
+    \item \textbf{RASD:} Requirements Analysis and Specification Document.
+    \item \textbf{UI:} User Interface.
+\end{itemize}
+
+\subsubsection{Abbreviations}
+\begin{itemize}
+    \item \textbf{G$n$:} Goal number $n$
+    \item \textbf{R$n$:} Requirement number $n$
+    \item \textbf{PR$n$:} Performance Requirement number $n$
+    \item \textbf{CON$n$:} Constraint number $n$
+    \item \textbf{DC$n$:} Design Constraint number $n$
+    \item \textbf{SSA$n$:} Software System Attribute number $n$
+\end{itemize}
+
 \subsection{Revision History}
+\begin{itemize}
+    \item January 7, 2026: version 1.0, first release
+\end{itemize}
 
 \subsection{Reference Documents}
+\begin{itemize}
+    \item Specification document: "Assignment RDD AY 2025-2026"
+    
+    \item UML official specification: https://www.planttext.com/
+    
+    \item Architectural Design specification: https://www.planttext.com/
+    
+    \item User Interface Design Figma project:
+    \href{https://www.figma.com/design/Eke18Kn9sdAbKgfQLGRc6u/BBP?node-id=0-1&p=f&t=du3CXIlhp8B1eogT-0}{FigmaProject-BBP}
+    
+    \item Deployment Diagram specification: 
+    \href{https://online.visual-paradigm.com/diagrams/tutorials/deployment-diagram-tutorial/}{Visual-Paradigm-deployment-diagram}
+    
+\end{itemize}
 
 \subsection{Document Structure}
 \begin{itemize}
